@@ -1,3 +1,103 @@
 a {
   text-decoration: none;
 }
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.cbt_login_container{
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  background-color: #fafafa;
+}
+.cbt_login_container .cbt_login_banner{
+  width: 50%;
+  background-image: url(/images/bg/login1.jpg);
+  background-size: cover;
+}
+
+
+.cbt_login_form_container{
+  width: 50%;
+}
+.cbt_login_form_container form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+.cbt_login_form_container form *{
+  text-align: center;
+}
+
+.cbt_login_form_container form p{
+  margin: 1rem 0;
+  color: #444;
+}
+
+.cbt_login_form_container form h1{
+  color: rgb(182, 15, 107); 
+  font-weight: bolder;
+  font-size: 2rem;
+  text-transform: uppercase;
+} 
+
+.instructions_container{
+  width: 100;
+  min-height: 100vh;
+  display: flex;
+}
+
+.instructions_content{
+  width: 50%;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.instructions_content h1{
+  font-size: 3rem;
+  color:rgb(182, 15, 107);
+  margin-bottom: 3rem;
+}
+
+.instructions_content ol, .instructions_content p{
+  margin-top: 1rem;
+  color: #333;
+}
+
+.instructions_content ol li{
+  margin-top: .5rem;
+}
+
+.instructions_banner{
+  width: 50%;
+  background-size: cover;
+  background-image: url(/images/bg/login.jpg); 
+}
+
+.test_bio_container{
+  background-color: #f9f9f9;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.test_bio_container p{
+  color: #555555;
+  line-height: 1.5;;
+}
+.test_bio_container h3{
+  color: #c51330;
+  line-height: 2.5;
+}

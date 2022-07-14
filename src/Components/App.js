@@ -8,9 +8,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Landing from './welcome/Landing';
 import Instruction from './welcome/Instruction';
-import SignIn from './welcome/SignIn';
+// import SignIn from './welcome/SignIn';
 import { Redirect } from 'react-router-dom';
+import SignIn from '../pages/SignIn/SignIn';
 import './App.css';
+import Instructions from '../pages/SignIn/Instructions/Instructions';
+import { BackendAPI } from '../lib/api';
 
 const styles = theme => ({
   root: {
@@ -60,12 +63,27 @@ class App extends React.Component {
   state = {
     activeStep: 0,
     hasCandidate: false,
-    authenticated: false
+    authenticated: false,
+    candidate: null,
   };
 
   componentWillMount() {
     localStorage.setItem('regNo', '');
     localStorage.setItem('programType', '');
+  }
+
+  async componentDidMount(){
+    const studentId = localStorage.getItem('studentId');
+    if(studentId){
+      const res = await BackendAPI.get(`/students/${studentId}`);
+
+      if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
+        alert("You have exhaused your time or you have completed your exam.")
+        return localStorage.removeItem('studentId')
+      }
+
+      return this.setState({activeStep: 1, candidate: res.data});
+    }
   }
 
   handleNext = () => {
@@ -111,8 +129,11 @@ class App extends React.Component {
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
+    // return <SignIn />
+    // return <Instructions />
 
     return (
+
       <div className={classes.root}>
         {this.state.hasCandidate === true ? <Redirect to="/test" /> : null}
         {/* <Stepper activeStep={activeStep} alternativeLabel>
@@ -126,51 +147,12 @@ class App extends React.Component {
         </Stepper> */}
         <div className={classes.subContainer}>
           {this.state.activeStep === 0 ? (
-            <div className={classes.landing}>
-              <Landing />
-              <center>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={this.handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-              </Button>
-                  <Button variant="contained" color="primary" onClick={this.handleNext}>
-                    {activeStep === steps.length - 1 ? 'Start Test' : 'Next'}
-                  </Button>
-                </div>
-              </center>
-            </div>
-          ) : this.state.activeStep === 1 ?
-              <div className={classes.signIn}>
-                <SignIn authenticated={(response) => this.authenticated(response)} />
-                {this.state.authenticated === true ? <center>
-                  <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                  <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                      className={classes.backButton}
-                    >
-                      Back
-                </Button>
-
-                    <Button variant="contained" color="primary" onClick={this.handleNext}>
-                      {activeStep === steps.length - 1 ? 'Start Test' : 'Next'}
-                    </Button>
-
-                  </div>
-                </center> : null}
-                {this.state.authenticated === true ? null : <center>
-            
-                  <Button variant="contained" color="primary" onClick={this.handleGuestSignIn}>
-                    {activeStep === steps.length - 1 ? 'Start Test' : 'Candidate Login'}
-                  </Button>
-                </center>}
-              </div>
+            <SignIn
+              onStageChange={() => this.setState({activeStep: 1})}
+            />
+          ) : this.state.activeStep === 1 ? 
+          <Instructions candidate={this.state.candidate} onStageChange={() => this.setState({hasCandidate: true})} />
+              
               : (
                 <div className={classes.instruct}>
                   <Instruction />

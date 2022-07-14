@@ -31,17 +31,24 @@ class RadioButtonsGroup extends React.Component {
   };
 
   handleChange = (event, ans, quesNo) => {
+    
     this.setState({ value: event });
+    this.props.response(this.props.question.id, event);
+    this.findChecked = this.findChecked.bind(this)
+  }
 
-    if (event === ans) {
-      this.props.response(quesNo);
-    } else {
-      this.props.checkQuestionNo(quesNo);
-    }
+  findChecked(){
+    const checked = this.props.question.answers.find(answer => answer.isChecked);
+
+    return checked ? checked.id : 0;
   }
 
   render() {
     const { classes, objective } = this.props;
+
+    const checked = this.props.question.answers.find(answer => {
+      return answer.hasOwnProperty('isChecked') ? answer.isChecked :  answer.answers.length;
+    });
     return (
       <div className={classes.root}>
         <FormControl component="fieldset" className={classes.formControl}>
@@ -49,17 +56,20 @@ class RadioButtonsGroup extends React.Component {
             aria-label="Gender"
             name="gender1"
             className={classes.group}
-            value={this.state.value}
+            value={checked ? checked.id : 0}
             onChange={(e) => this.handleChange(e.target.value, objective.ans, objective.ques)}
           >
-            <FormControlLabel value={objective.opt1} control={<Radio />} label={objective.opt1} />
-            <FormControlLabel value={objective.opt2} control={<Radio />} label={objective.opt2} />
+            {objective.map((obj, index) => {
+              return <FormControlLabel key={index} value={obj.id} control={<Radio />} label={obj.answer} />
+            })}
+            {/* <FormControlLabel value={"Hello"} control={<Radio />} label={"World"} /> */}
+            {/* 
             {objective.opt3 === undefined ? null
               :
               <FormControlLabel value={objective.opt3} control={<Radio />} label={objective.opt3} />}
             {objective.opt4 === undefined ? null :
               <FormControlLabel value={objective.opt4} control={<Radio />} label={objective.opt4}
-              />}
+              />} */}
           </RadioGroup>
         </FormControl>
       </div>

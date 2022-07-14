@@ -14,6 +14,8 @@ import Footer from './Components/Footer';
 import notFoundPage from './Components/routes/pageNotFound';
 import SignIn from './Components/welcome/SignIn';
 import Candidates from './Components/Candidates';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,8 +32,32 @@ const theme = createMuiTheme({
   },
 });
 
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'd9eb23ed00e57f8645b7',
+    wsHost: window.location.hostname,
+    cluster: 'mt1',
+    wsPort: 6001,
+    forceTLS: false,
+    disableStats: true,
+});
+
+window.Echo.channel(`test-channel`)
+        .listen('TestEvent', (e) => {
+            console.log("Soemthing dispatched");
+        });
 
 class Index extends Component {
+  
+  componentDidMount(){
+    window.Echo.channel(`test-channel`)
+        .listen('TestEvent', (e) => {
+            console.log("Soemthing dispatched");
+        });
+  }
+
   render() {
     return (
       <BrowserRouter>

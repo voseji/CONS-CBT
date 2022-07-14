@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 class SubmitDialog extends React.Component {
   state = {
-    open: false
+    open: false,
   };
 
   handleClickOpen = () => {

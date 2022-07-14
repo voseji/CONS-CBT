@@ -10,6 +10,7 @@ import Typing from 'react-typing-animation';
 import Hidden from '@material-ui/core/Hidden';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
+import { BackendAPI } from '../../lib/api';
 
 const styles = theme => ({
   root: {
@@ -34,15 +35,15 @@ const styles = theme => ({
   img: {
     [theme.breakpoints.only('md')]: {
       height: "40%",
-      width: "80%",
+      width: "70%",
     },
     [theme.breakpoints.only('lg')]: {
       height: "40%",
-      width: "65%",
+      width: "60%",
     },
     [theme.breakpoints.only('xl')]: {
-      height: "70%",
-      width: "70%",
+      height: "60%",
+      width: "60%",
     },
   },
   btn: {
@@ -62,17 +63,23 @@ class SubmitResponse extends Component {
   state = {
     candidateData: undefined,
     score: undefined,
-    redirect: false
+    redirect: false,
   }
 
   componentWillMount() {
-    this.getScore();
-    this.getCandidateData();
-    localStorage.removeItem('authenticated');
+    // this.getScore();
+    // localStorage.removeItem('authenticated');
   }
+  
+  async componentDidMount() {
+    try{
+      this.getCandidateData();
+      const res = await BackendAPI.get(`/students/RG0001`);
+      
+    }catch(error){
 
-  componentDidMount() {
-    this.recordCandidate(this.state.score, this.state.candidateData);
+    }
+    // this.recordCandidate(this.state.score, this.state.candidateData);
   }
 
   getScore() {
@@ -82,10 +89,10 @@ class SubmitResponse extends Component {
     });
   }
 
-  getCandidateData() {
-    const candidateData = JSON.parse(localStorage.getItem('candidate'));
+  async getCandidateData() {
+    const res = await BackendAPI.get(`/students/RG0001`);
     this.setState({
-      candidateData
+      candidateData: res.data,
     });
   }
 
@@ -104,6 +111,7 @@ class SubmitResponse extends Component {
 
   handleGoHome = () => {
     localStorage.setItem('candidate', JSON.stringify([]));
+    localStorage.removeItem('studentId');
     this.setState({
       redirect: true
     })
@@ -160,29 +168,18 @@ class SubmitResponse extends Component {
           {candidate !== [] || !!guest ?
             <Paper className={classes.root} elevation={0}>
               {this.state.redirect === true ? <Redirect to="/" /> : null}
-              {!!guest ?
+              
               <Typing >
               <Typography className={classes.typo} variant="headline" component="h3">
                 <ul className={classes.ul}>
-                  <li className={classes.li}> <Typing.Delay ms={1500} />Time Up! <Typing.Delay ms={1000} /> <strong> guest  </strong> <Typing.Delay ms={500} /> </li>
-                  <li className={classes.li}> Your score is {guestScore} <Typing.Delay ms={1500} /></li>
+                  <li className={classes.li}> Time Up! <strong> {this.state.candidateData ? this.state.candidateData.firstName : 'Candidate'}  </strong> </li>
+                  <li className={classes.li}> You have exhausted your exam time.</li>
+                  <li className={classes.li}>  Please logout and wait for result</li>
                 </ul>
-              </Typography>
-              </Typing> :
-              <Typing >
-              <Typography className={classes.typo} variant="headline" component="h3">
-                <ul className={classes.ul}>
-                  <li className={classes.li}> <Typing.Delay ms={1500} />Time Up! <Typing.Delay ms={1000} /> <strong> {this.state.candidateData[0].fullName}  </strong> <Typing.Delay ms={500} /> </li>
-                  <li className={classes.li}> Sirgeb's Robot has recorded your score <Typing.Delay ms={1500} /></li>
-                  <li className={classes.li}>  You will get your score next year <Typing.Delay ms={1500} /> </li>
-                  <li className={classes.li}> </li>
-                  <li className={classes.li}> Sorry I made a mistake... <Typing.Delay ms={1500} /> </li>
-                  <li className={classes.li}> It will be out by tomorrow or next.</li>
-                </ul>
+
               </Typography>
               </Typing>
-              }
-              <Button variant="outlined" className={classes.btn} onClick={this.handleGoHome}> Go Home </Button>
+              <Button variant="contained" color="secondary" className={classes.btn} onClick={this.handleGoHome}> Logout </Button>
               <center>
                 <Hidden smDown>
                   <img className={classes.img} src={image} alt="response" />

@@ -10,6 +10,7 @@ import Typing from 'react-typing-animation';
 import Hidden from '@material-ui/core/Hidden';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
+import { BackendAPI } from '../../lib/api';
 
 const styles = theme => ({
   root: {
@@ -66,13 +67,13 @@ class SubmitResponse extends Component {
   }
 
   componentWillMount() {
-    this.getScore();
-    this.getCandidateData();
-    localStorage.removeItem('authenticated');
+    // this.getScore();
+    // localStorage.removeItem('authenticated');
   }
-
+  
   componentDidMount() {
-    this.recordCandidate(this.state.score, this.state.candidateData);
+    this.getCandidateData();
+    // this.recordCandidate(this.state.score, this.state.candidateData);
   }
 
   getScore() {
@@ -82,10 +83,10 @@ class SubmitResponse extends Component {
     });
   }
 
-  getCandidateData() {
-    const candidateData = JSON.parse(localStorage.getItem('candidate'));
+  async getCandidateData() {
+    const res = await BackendAPI.get('/students/RG0001');
     this.setState({
-      candidateData
+      candidateData: res.data,
     });
   }
 
@@ -104,6 +105,7 @@ class SubmitResponse extends Component {
 
   handleGoHome = () => {
     localStorage.setItem('candidate', JSON.stringify([]));
+    localStorage.removeItem('studentId');
     this.setState({
       redirect: true
     })
@@ -176,6 +178,7 @@ class SubmitResponse extends Component {
     localStorage.setItem('questionNo', JSON.stringify([]));
     localStorage.setItem('candidate', JSON.stringify([]));
     localStorage.removeItem('guest');
+    localStorage.removeItem('studentId');
     localStorage.setItem('guestScore', String(0));
   }
 
@@ -191,29 +194,18 @@ class SubmitResponse extends Component {
           {candidate !== [] || !!guest ?
             <Paper className={classes.root} elevation={0}>
               {this.state.redirect === true ? <Redirect to="/" /> : null}
-              {!!guest ?
+              
                 <Typing >
                   <Typography className={classes.typo} variant="headline" component="h3">
                     <ul className={classes.ul}>
-                      <li className={classes.li}> <Typing.Delay ms={1500} />Hi - <Typing.Delay ms={1000} /> <strong> guest <i>!</i> </strong> <Typing.Delay ms={500} /> </li>
-                      <li className={classes.li}> You scored {guestScore} <Typing.Delay ms={1500} /></li>
-                    </ul>
-                  </Typography>
-                </Typing> :
-                <Typing >
-                  <Typography className={classes.typo} variant="headline" component="h3">
-                    <ul className={classes.ul}>
-                      <li className={classes.li}> <Typing.Delay ms={1500} />Hi - <Typing.Delay ms={1000} /> <strong> {this.state.candidateData[0].fullName}  </strong> <Typing.Delay ms={500} /> </li>
-                      <li className={classes.li}> Sirgeb's Robot has recorded your score <Typing.Delay ms={1500} /></li>
-                      <li className={classes.li}>  You will get your score next year <Typing.Delay ms={1500} /> </li>
-                      <li className={classes.li}> </li>
-                      <li className={classes.li}> Sorry I made a mistake... <Typing.Delay ms={1500} /> </li>
-                      <li className={classes.li}> It will be out by tomorrow or next.</li>
+                      <li className={classes.li}> Hi - <strong> {this.state.candidateData ? this.state.candidateData.firstName : 'Candidate'}  </strong> </li>
+                      <li className={classes.li}> Your response has been submitted.  </li>
+                      <li className={classes.li}> Your result will be computed soon.  </li>
+                      
                     </ul>
                   </Typography>
                 </Typing>
-              }
-              <Button variant="outlined" className={classes.btn} onClick={this.handleGoHome}> Go Home </Button>
+              <Button variant="contained" color='secondary' className={classes.btn} onClick={this.handleGoHome}> Logout </Button>
               <center>
                 <Hidden smDown>
                   <img className={classes.img} src={image} alt="response" />
