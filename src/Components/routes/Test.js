@@ -247,6 +247,7 @@ class Test extends React.Component {
   handleSubmit = async () => {
     let {student} = this.state;
     student.exam_status = "FINISHED";
+    localStorage.removeItem('studentId');
 
     await BackendAPI.put(`/students/${student.id}`,student)
     clearInterval(this.timer);
@@ -257,6 +258,7 @@ class Test extends React.Component {
 
   handleTimeOut = () => {
     clearInterval(this.timer);
+    localStorage.removeItem('studentId');
     this.setState({
       timeOut: true
     })
@@ -280,8 +282,8 @@ class Test extends React.Component {
     return (
       <div className={classes.root}>
           <div id="test">
-            {this.state.submit === true ? <Redirect to="/submit-response" /> : null}
-            {this.state.timeOut === true ? <Redirect to="/timeout" /> : null}
+            {this.state.submit === true ? <Redirect to="/" /> : null}
+            {this.state.timeOut === true ? <Redirect to="/" /> : null}
 
             <Header examTime={this.remainingTime()} submit={this.handleSubmit} />
             <div style={{display: 'flex', justifyContent: 'space-between', minHeight: '50vh'}}>
