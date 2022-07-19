@@ -16,6 +16,7 @@ import SignIn from './Components/welcome/SignIn';
 import Candidates from './Components/Candidates';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
+import Calc from './Components/routes/calculator'
 
 const theme = createMuiTheme({
   palette: {
@@ -72,6 +73,7 @@ class Index extends Component {
               <Route path="/submit-response" component={SubmitResponse} />
               <Route path="/results" component={Results} />
               <Route path="/candidates" component={Candidates} />
+              <Route path="/calculator" component={Calc} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />

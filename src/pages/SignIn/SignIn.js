@@ -8,7 +8,7 @@ class SignIn extends React.Component {
 
         this.state = {
             isLoading: false,
-            studentId: 'RG0001',
+            studentId: '',
         }
         this.handleSearchCandidate = this.handleSearchCandidate.bind(this);
     }
@@ -42,11 +42,13 @@ class SignIn extends React.Component {
             </div>
             <div className='cbt_login_form_container'>
                 <form onSubmit={this.handleSearchCandidate}>
-                    <h1>School of Nurseing CBT</h1>
-                    <p>Enter your candidate ID to get started</p>
+                <img src='images/FCT-logo4.png' width='20%'/>
+                    <h1>FCT College of Nursing and Midwifery Sciences CBT</h1>
+                    <h2>2022 Midwifery Entrance Exam</h2>
+                    <p>Enter your Registration Number to get started</p>
                     <Input 
                         fullWidth 
-                        placeholder='Candidate ID' 
+                        placeholder='Registration Number' 
                         value={studentId}
                         onChange={(e) => this.setState({studentId: e.target.value})}
                         autoComplete='false' />
@@ -56,7 +58,7 @@ class SignIn extends React.Component {
                     variant='contained' 
                     color="secondary" 
                     disabled={isLoading}
-                    className="mt-2">{isLoading ? "Please wait..." : 'Get started'}</Button>
+                    className="mt-2">{isLoading ? "Please wait..." : 'Candidate Login'}</Button>
 
                 </form>
             </div>
