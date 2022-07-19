@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap');
+
 a {
   text-decoration: none;
 }
@@ -6,6 +8,7 @@ a {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Nunito Sans";
 }
 
 .cbt_login_container{
@@ -159,7 +162,7 @@ a {
 }
 
 .dashboard_sidebar_top h3{
-  color:rgb(5, 22, 100);
+  color:#333;
   line-height: 2;
   text-align: center;
 }
