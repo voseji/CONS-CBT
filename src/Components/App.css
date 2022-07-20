@@ -234,7 +234,18 @@ a {
 
 .dashboard_content{
   margin-top: 3rem;
-  margin-left: 300px ;
+  margin-left: 250px ;
   min-height: 70vh;
   overflow-y: scroll;
+  max-width: 75vw;
+}
+
+.dashboard_title{
+  color:rgb(5, 22, 100);
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem 0;
 }

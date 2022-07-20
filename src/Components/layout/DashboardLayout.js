@@ -9,7 +9,7 @@ export default class DashboardLayout extends React.Component{
     }
     render(){
         return (
-            <div>
+            <div style={{backgroundColor: '#fafafa'}}>
                 <AppBar position="static">
                     <Toolbar variant="dense">
                         <div className="dashboard_header_container">
