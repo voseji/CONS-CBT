@@ -21,7 +21,7 @@ const columns = [
     { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
       return <Icon color="primary"
       component={Link}
-      to={{pathname: `/dps/registration/print?registrationNumber=${registrationNumber}`}}
+      to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
       >edit</Icon>
  }} },
  
