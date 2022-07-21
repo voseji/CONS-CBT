@@ -19,7 +19,7 @@ import Pusher from 'pusher-js';
 import DashboardHome from './pages/Dashboard/DashboardHome';
 import {Candidates} from './pages/Dashboard/Candidates';
 import Questions from './pages/Dashboard/Questions';
-import Results from './pages/Dashboard/Results';
+import {Results} from './pages/Dashboard/Results';
 
 const theme = createMuiTheme({
   palette: {

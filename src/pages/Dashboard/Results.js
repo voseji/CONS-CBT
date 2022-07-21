@@ -12,56 +12,60 @@ import Icon from '@mui/material/Icon';
 
 const columns = [
 
-    { label: "eID", name: "eID" },
-    { label: "KIV", name: "KIV" },
-    { label: "Rgistration Number", name: "registrationNumber" },
-    { label: "Facility Name", name: "facilityName" },
-    { label: "Facility Type", name: "facilityType" },
-//     { label: "Action", name: "", options: {customBodyRender: (eID) => {
-//       return <Icon color="primary"
-//       component={Link}
-//       to={{pathname: `/dps/registration/print?eID=${eID}`, data:allregdetails}}
-//       >print</Icon>
-//  }} },
+    { label: "Registration Number", name: "registrationNumber" },
+    { label: "Candidate Name", name: "formNumber" },
+    { label: "Form Number", name: "formNumber" },
+    { label: "Phone Number", name: "phoneNumber1" },
+    { label: "State Of Origin", name: "stateOfOrigin" },
+    { label: "Score", name: "batch" },
+    { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
+      return <Icon color="primary"
+      component={Link}
+      to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
+      >edit</Icon>
+ }} },
  
 
   ];
 
 
-  // const [allregdetails, setAllRegDetails] = useState([])
-  // useEffect(()=>{
-  //   fetchAllRegDetails()
-  //   },[])
-  // const fetchAllRegDetails = async () => {
-  //   await BackendAPI.get(`/students`).then(({data})=>{
-  //     // setFacilityType1(data?.data)
-  //     setAllRegDetails(data)
-  //     console.log(data);
-  //   })
-  //   }
-export default class Results extends React.Component{
 
+// export default class Candidates extends React.Component{
 
-    render(){
+  export const Results = () =>{
+    // render(){
+
+      const [allregdetails, setAllRegDetails] = useState([])
+  useEffect(()=>{
+    fetchAllRegDetails()
+    },[])
+  const fetchAllRegDetails = async () => {
+    await BackendAPI.get(`/students`).then(({data})=>{
+      // setFacilityType1(data?.data)
+      setAllRegDetails(data)
+      console.log(data);
+    })
+    }
 
         return <DashboardLayout>
             <div>
-                <DashboardTitle title="Results" />
-                {/* <MUIDataTable 
+                <DashboardTitle title="Candidate Results" />
+                <MUIDataTable 
               columns={columns}
               data={allregdetails.map((registration, index) => [
                 // index +1, 
-                registration.createdAt,
-                registration.eID,
-                registration.KIV,
+                // registration.createdAt,
                 registration.registrationNumber,
-                registration.facilityName,
-                registration.facility_type.facilityType,
-                registration.eID,
+                registration.firstName + ' ' + registration.lastName + ' ' + registration.otherNames,
+                registration.formNumber,
+                registration.phoneNumber1,
+                registration.stateOfOrigin,
+                registration.batch,
+                registration.registrationNumber,
            
               ])}
-             /> */}
+             />
             </div>
         </DashboardLayout>
     }
-}
+// }
