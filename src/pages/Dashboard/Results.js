@@ -39,14 +39,14 @@ const columns = [
   //     console.log(data);
   //   })
   //   }
-export default class Candidates extends React.Component{
+export default class Results extends React.Component{
 
 
     render(){
 
         return <DashboardLayout>
             <div>
-                <DashboardTitle title="Dashboard" />
+                <DashboardTitle title="Results" />
                 {/* <MUIDataTable 
               columns={columns}
               data={allregdetails.map((registration, index) => [

@@ -9,14 +9,17 @@ import pink from "@material-ui/core/colors/pink";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Timeout from './Components/routes/Timeout';
 import SubmitResponse from './Components/routes/SubmitResponse';
-import Results from './Components/routes/Results';
+// import Results from './Components/routes/Results';
 import Footer from './Components/Footer';
 import notFoundPage from './Components/routes/pageNotFound';
 import SignIn from './Components/welcome/SignIn';
-import Candidates from './Components/Candidates';
+// import Candidates from './Components/Candidates';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import DashboardHome from './pages/Dashboard/DashboardHome';
+import {Candidates} from './pages/Dashboard/Candidates';
+import Questions from './pages/Dashboard/Questions';
+import Results from './pages/Dashboard/Results';
 
 const theme = createMuiTheme({
   palette: {
@@ -74,6 +77,8 @@ class Index extends Component {
               <Route path="/results" component={Results} />
               <Route path="/candidates" component={Candidates} />
               <Route path="/dashboard" component={DashboardHome} />
+              <Route path="/questions" component={Questions} />
+              <Route path="/results" component={Results} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />
