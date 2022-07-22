@@ -40,9 +40,12 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
     marginTop: theme.spacing.unit * 3,
-  }
+  },
 });
 
+const navStyles = {
+
+}
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -277,7 +280,6 @@ class Test extends React.Component {
     const maxSteps = activeSubject ? activeSubject.questions.length : 0;
     const authenticated = localStorage.getItem('authenticated');
     const guest = localStorage.getItem('guest');
-    console.log(this.state.activeSubject)
     const activeStepId = activeSubject ? activeSubject.id : 0;
     return (
       <div className={classes.root}>
@@ -385,16 +387,26 @@ class Test extends React.Component {
                   <Tab label="Item Three"  {...a11yProps(2)}  onClick={() => this.setState({activeTab: 2})} /> */}
                 </Tabs>
               </div>
+              <div className='test_nav_container'>
+                  <ul>
+                    {
+                      activeSubject && activeSubject.questions ? 
+                        activeSubject.questions.map((question, index) => {
+                          const checked = question.answers.find(answer => {
+                            return answer.hasOwnProperty('isChecked') ? answer.isChecked :  answer.answers.length;
+                          });
+                          return <li 
+                          onClick={() => this.setState({[`sub${this.state.activeSubject.id}`]: index})}
+                          className={
+                            checked ? "active" : ''
+                          }>{index + 1}</li>
+
+                        })
+                      : <div></div>
+                    }
+                  </ul>
+              </div>
               
-              <TabPanel value={1} index={0}>
-                Some excellent
-              </TabPanel>
-              <TabPanel value={2} index={1}>
-                Item Two
-              </TabPanel>
-              <TabPanel value={3} index={2}>
-                Item Three
-              </TabPanel>
       </div>
     );
   }
