@@ -284,3 +284,8 @@ a {
   color: #fff;
   border-color: #f9f9f9;;
 }
+
+th button{
+  padding: 0 !important;
+  text-align: left !important;
+}

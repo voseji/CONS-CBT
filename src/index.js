@@ -77,7 +77,7 @@ class Index extends Component {
               <Route path="/submit-response" component={SubmitResponse} />
               <Route path="/results" component={Results} />
               <Route path="/candidates" component={Candidates} />
-              <Route path="/dashboard" component={DashboardHome} />
+              <Route path="/admin" component={DashboardHome} />
               <Route path="/questions" component={Questions} />
               <Route path="/results" component={Results} />
               {/* <Route path="/calculator" component={Demo} /> */}

@@ -39,7 +39,7 @@ export default class DashboardLayout extends React.Component{
                     </div>
                     <div className="dashboard_sidebar_links">
                         <ul>
-                            <li className='active'><a href="/dashboard"> <Dashboard/> <span>Dashboard</span> </a></li>
+                            <li className='active'><a href="/admin"> <Dashboard/> <span>Dashboard</span> </a></li>
                             <li><a href="/candidates"> <CameraFront /> <span>Candidates</span> </a></li>
                             <li><a href="/questions"> <QuestionAnswerOutlined /> <span>Questions</span> </a></li>
                             <li><a href="/results"> <Adjust /> <span>Results</span> </a></li>
