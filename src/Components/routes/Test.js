@@ -16,6 +16,11 @@ import Header from '../Header';
 import { Redirect } from 'react-router-dom';
 import { BackendAPI } from '../../lib/api';
 import { Tab, Tabs } from '@material-ui/core';
+// import { ReactCalculator } from "simple-react-calculator";
+// import Calculator from 'standart-calculator-react';
+// import { Calculator } from 'react-mac-calculator'
+// import Calculator from 'react-calculator';
+import NumericInput from 'react-calculator-input';
 
 
 const styles = theme => ({
@@ -271,6 +276,7 @@ class Test extends React.Component {
 
 
   render() {
+    
     const { classes, theme } = this.props;
     const {subjects, activeSubject} = this.state;
     const activeStep = this.state[`sub${activeSubject ? activeSubject.id :''}`];
@@ -280,6 +286,7 @@ class Test extends React.Component {
     console.log(this.state.activeSubject)
     const activeStepId = activeSubject ? activeSubject.id : 0;
     return (
+      
       <div className={classes.root}>
           <div id="test">
             {this.state.submit === true ? <Redirect to="/" /> : null}
@@ -335,6 +342,8 @@ class Test extends React.Component {
                     {/* {Questions.map(question => (
                     ))} */}
 
+                    
+
                   </SwipeableViews>
 
               </div>
@@ -387,7 +396,7 @@ class Test extends React.Component {
               </div>
               
               <TabPanel value={1} index={0}>
-                Some excellent
+              
               </TabPanel>
               <TabPanel value={2} index={1}>
                 Item Two

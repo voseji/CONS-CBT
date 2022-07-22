@@ -20,6 +20,7 @@ import DashboardHome from './pages/Dashboard/DashboardHome';
 import {Candidates} from './pages/Dashboard/Candidates';
 import Questions from './pages/Dashboard/Questions';
 import {Results} from './pages/Dashboard/Results';
+// import {Demo} from './pages/Dashboard/Calculator';
 
 const theme = createMuiTheme({
   palette: {
@@ -79,6 +80,7 @@ class Index extends Component {
               <Route path="/dashboard" component={DashboardHome} />
               <Route path="/questions" component={Questions} />
               <Route path="/results" component={Results} />
+              {/* <Route path="/calculator" component={Demo} /> */}
               <Route component={notFoundPage} />
             </Switch>
             <Footer />

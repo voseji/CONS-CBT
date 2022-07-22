@@ -18,12 +18,7 @@ const columns = [
     { label: "Phone Number", name: "phoneNumber1" },
     { label: "State Of Origin", name: "stateOfOrigin" },
     { label: "Score", name: "batch" },
-    { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
-      return <Icon color="primary"
-      component={Link}
-      to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
-      >edit</Icon>
- }} },
+
  
 
   ];
