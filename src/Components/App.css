@@ -19,7 +19,7 @@ a {
 }
 .cbt_login_container .cbt_login_banner{
   width: 50%;
-  background-image: url(/images/bg/login1.jpg);
+  background-image: url('../../public/images/bg/login1.jpg');
   background-size: cover;
 }
 
@@ -87,7 +87,7 @@ a {
 .instructions_banner{
   width: 50%;
   background-size: cover;
-  background-image: url(/images/bg/login.jpg); 
+  background-image: url('../../public/images/bg/login.jpg'); 
 }
 
 .test_bio_container{
