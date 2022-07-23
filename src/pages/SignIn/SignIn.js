@@ -45,11 +45,11 @@ class SignIn extends React.Component {
                     <img src='images/bg/FCT-logo4.png' width='20%'/>
                     <h1>FCT College of Nursing Sciences</h1>
                     <h2>2022 Midwifery Entrance Examinations</h2>
-                    <p>Enter your Registration Number to get started</p>
+                    <p>Enter your Application Number to get started</p>
                     <Input 
                 
                         fullWidth 
-                        placeholder='Registration Number' 
+                        placeholder='Application Number' 
                         value={studentId}
                         onChange={(e) => this.setState({studentId: e.target.value})}
                         autoComplete='false' />

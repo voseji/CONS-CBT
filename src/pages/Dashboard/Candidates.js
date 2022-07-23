@@ -12,18 +12,21 @@ import Icon from '@mui/material/Icon';
 
 const columns = [
 
-    { label: "Registration Number", name: "registrationNumber" },
+    { label: "Application Number", name: "registrationNumber" },
     { label: "Candidate Name", name: "formNumber" },
     { label: "Form Number", name: "formNumber" },
     { label: "Phone Number", name: "phoneNumber1" },
     { label: "State Of Origin", name: "stateOfOrigin" },
     { label: "Batch", name: "batch" },
     { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
-      return <Icon color="primary"
-      component={Link}
-      to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
-      >edit</Icon>
+      return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>Edit/Rebatch</Link>
  }} },
+//  { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
+//   return <Icon color="primary"
+//   component={Link}
+//   to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
+//   >edit</Icon>
+// }} },
  
 
   ];

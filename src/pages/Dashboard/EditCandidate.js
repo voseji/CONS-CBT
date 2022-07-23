@@ -12,7 +12,7 @@ import Icon from '@mui/material/Icon';
 // import { useParams, useSearchParams } from 'react-router-dom';
 const columns = [
 
-  { label: "Registration Number", name: "registrationNumber" },
+  { label: "Application Number", name: "registrationNumber" },
   { label: "Candidate Name", name: "formNumber" },
   { label: "Form Number", name: "formNumber" },
   { label: "Phone Number", name: "phoneNumber1" },
@@ -28,12 +28,12 @@ const columns = [
 // export default class Candidates extends React.Component{
 
 export const EditCandidate = () =>{
-  const { registrationNumber } = useParams();
+  // const { registrationNumber } = useParams();
 	const [registration, setRegistration] = useState(null)
 
-	useEffect(()=>{
-    fetchRegistration(registrationNumber)
-	},[])
+	// useEffect(()=>{
+  //   fetchRegistration(registrationNumber)
+	// },[])
   
   // const [searchParams, setSearchParams] =useSearchParams()
 	// const fetchRegistration = async () => {
@@ -42,12 +42,27 @@ export const EditCandidate = () =>{
   //     console.log(data);
   //   })
 	// }
-    
+  const { registrationNumber } = useParams();
+	const [student, setStudent] = useState(null)
+	// const [settings, setSettings] = useState()
+
+	useEffect(()=>{
+			fetchStudent(registrationNumber)
+	},[])
+
+	const fetchStudent = async () => {
+			await BackendAPI.get(`/students/${registrationNumber}`).then(({data})=>{
+					setStudent(data.data)
+					console.log(data.data);
+			})
+	}  
 
         return <DashboardLayout>
             <div>
                 <DashboardTitle title="Edit Candidate" />
-
+                <InputLabel>First Name</InputLabel>
+                
+                           
             </div>
         </DashboardLayout>
     }

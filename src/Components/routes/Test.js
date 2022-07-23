@@ -353,9 +353,9 @@ class Test extends React.Component {
                 <img src='/images/avatar/passport.png' style={{maxWidth: '100px', borderRadius: '20px'}} />
                 <h3>{this.state.student ? this.state.student.lastName : ''} {this.state.student ? this.state.student.firstName : ''}</h3>
                   <hr />
-                  <p style={{marginTop: '2rem'}}>Registration Number: RG0001 </p>
-                  <p>Batch Number: A1 </p>
-                  <p>Year: 2022</p>
+                  <p style={{marginTop: '2rem'}}>Application Number:  {this.state.student ? this.state.student.registrationNumber : ''}</p>
+                  <p>Batch Number: {this.state.student ? this.state.student.batch : ''}</p>
+                  
               </div>
             </div>
 
