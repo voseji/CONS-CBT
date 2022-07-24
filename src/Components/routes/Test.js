@@ -22,7 +22,6 @@ import { Tab, Tabs } from '@material-ui/core';
 // import Calculator from 'react-calculator';
 import NumericInput from 'react-calculator-input';
 
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -277,7 +276,6 @@ class Test extends React.Component {
     this.setState({activeTab: index, activeSubject,})
   }
 
-
   render() {
     
     const { classes, theme } = this.props;
@@ -295,6 +293,8 @@ class Test extends React.Component {
             {this.state.timeOut === true ? <Redirect to="/" /> : null}
 
             <Header examTime={this.remainingTime()} submit={this.handleSubmit} />
+
+
             <div style={{display: 'flex', justifyContent: 'space-between', minHeight: '50vh'}}>
               <div style={{width: '40%', overflowY: 'scroll'}}>
                 <Typography style={{padding: '1rem'}} variant='subtitle' color="secondary" component='h2' >

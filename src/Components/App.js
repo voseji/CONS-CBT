@@ -124,6 +124,15 @@ class App extends React.Component {
     }
   }
 
+  handleInput(input) {
+    console.log(`${input.expression} is shown in the calculator, User clicked the ${input.key}`)
+  }
+
+  onResultChange(newResult) {
+    console.log(newResult)
+    console.log(`${newResult.expression} is validated as ${newResult.result} `)
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -131,7 +140,7 @@ class App extends React.Component {
     const { activeStep } = this.state;
     // return <SignIn />
     // return <Instructions />
-
+    
     return (
 
       <div className={classes.root}>
