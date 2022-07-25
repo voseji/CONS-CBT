@@ -14,6 +14,7 @@ import SignIn from '../pages/SignIn/SignIn';
 import './App.css';
 import Instructions from '../pages/SignIn/Instructions/Instructions';
 import { BackendAPI } from '../lib/api';
+import Swal from 'sweetalert2';
 
 const styles = theme => ({
   root: {
@@ -76,9 +77,23 @@ class App extends React.Component {
     const studentId = localStorage.getItem('studentId');
     if(studentId){
       const res = await BackendAPI.get(`/students/${studentId}`);
+      const student = res.data;
+
+      // if(student?.exam_status === "STARTED"){
+      //   return Swal.fire({
+      //   icon: 'error',
+      //   title: 'Warning',
+      //   text: 'You are already logged in on another computer. Contact the coordinator to log you out',
+      //   });
+      // }
 
       if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
-        alert("You have exhaused your time or you have completed your exam.")
+
+        Swal.fire({
+        icon: 'error',
+        title: 'Warning',
+        text: 'You have exhaused your time or you have completed your exam',
+        });
         return localStorage.removeItem('studentId')
       }
 
@@ -124,14 +139,6 @@ class App extends React.Component {
     }
   }
 
-  handleInput(input) {
-    console.log(`${input.expression} is shown in the calculator, User clicked the ${input.key}`)
-  }
-
-  onResultChange(newResult) {
-    console.log(newResult)
-    console.log(`${newResult.expression} is validated as ${newResult.result} `)
-  }
 
 
   render() {

@@ -41,7 +41,7 @@ class Register extends React.Component {
       <div>
         <Paper className={classes.root} elevation={0}>
           <Typography variant="headline" component="h3">
-            ENTER REGISTRATION NUMBER
+            ENTER APPLICATION NUMBER
               </Typography>
           <Divider className={classes.divider} />
           <SignInForm
