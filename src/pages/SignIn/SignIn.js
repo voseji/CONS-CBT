@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input } from '@material-ui/core';
 import { BackendAPI } from '../../lib/api';
+import Swal from 'sweetalert2';
 
 class SignIn extends React.Component {
     constructor(props){
@@ -16,11 +17,33 @@ class SignIn extends React.Component {
     
     async handleSearchCandidate(e){
         e.preventDefault();
+        const {studentId} = this.state;
+        if(!studentId)
+        return Swal.fire({
+                icon: 'error',
+                title: "Notification:",
+                text: 'You must enter your student ID',
+                });
         this.setState({isLoading: true})
         try {
             const res = await BackendAPI.get(`/students/${this.state.studentId}`);
-            if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
-                alert("You have exhaused your time or you have completed your exam.")
+            const student = res.data;
+
+            if(student?.exam_status === "STARTED"){
+                return Swal.fire({
+                icon: 'error',
+                title: "Notification:",
+                text: 'You are currently signed into another computer. Please log out first',
+                });
+            }
+
+            if (student && (student.time_left < 1 || student.exam_status === "FINISHED")) {
+                // alert("You have exhaused your time or you have completed your exam.")
+                Swal.fire({
+                icon: 'error',
+                title: "Notification:",
+                text: 'You have exhaused your time or you have completed your exam',
+                });
                 return localStorage.removeItem('studentId')
             }
             localStorage.setItem('studentId',res.data.registrationNumber);

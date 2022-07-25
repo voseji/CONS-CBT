@@ -9,6 +9,7 @@ import MUIDataTable from "mui-datatables";
 // import moment from 'moment'
 import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
+import { remainingTime } from '../../lib/time.lib';
 
 const columns = [
 
@@ -18,6 +19,8 @@ const columns = [
     { label: "Phone Number", name: "phoneNumber1" },
     { label: "State Of Origin", name: "stateOfOrigin" },
     { label: "Batch", name: "batch" },
+    { label: "Status", name: "Status" },
+    { label: "Time Left", name: "timeleft" },
     { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
       return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>Edit/Rebatch</Link>
  }} },
@@ -59,14 +62,18 @@ const columns = [
                 // index +1, 
                 // registration.createdAt,
                 registration.registrationNumber,
-                registration.firstName + ' ' + registration.lastName + ' ' + registration.otherNames,
+                registration.firstName + ' ' + registration.lastName + ' ' + (registration.otherNames ?? ''),
                 registration.formNumber,
                 registration.phoneNumber1,
                 registration.stateOfOrigin,
                 registration.batch,
+                registration.exam_status,
+                remainingTime(registration.time_left),
                 registration.registrationNumber,
            
               ])}
+
+              options={{selectableRows: 'none', elevation: 0}}
              />
             </div>
         </DashboardLayout>

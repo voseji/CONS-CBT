@@ -3,7 +3,8 @@ import React from 'react';
 import DashboardTitle from '../../Components/DashboardTitle/DashboardTitle';
 import DashboardLayout from '../../Components/layout/DashboardLayout';
 import * as XLSX from 'xlsx';
-import { BackendAPI } from '../../lib/api';
+import { APIErrorHandler, BackendAPI } from '../../lib/api';
+import Swal from 'sweetalert2';
 
 
 export default class Questions extends React.Component{
@@ -13,8 +14,10 @@ export default class Questions extends React.Component{
         this.state = {
             file: null,
             subject: '',
-            batch: '',
+            batch: 'A1',
             questions: [],
+            subjects: [],
+            batches: [],
 
         }
 
@@ -24,6 +27,15 @@ export default class Questions extends React.Component{
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleShowFileUpload = this.handleShowFileUpload.bind(this);
         this.handleUploadQuestions = this.handleUploadQuestions.bind(this);
+    }
+
+    async componentDidMount(){
+        try{
+            const subjectRes = await BackendAPI.get('/subjects');
+            this.setState({subjects: subjectRes.data});
+        }catch(e){
+
+        }
     }
 
     async handleFileChange(e){
@@ -80,7 +92,6 @@ export default class Questions extends React.Component{
   }
 
   handleInputChange(e){
-    console.log(e.target.name, e.target.value);
     this.setState({[e.target.name]: e.target.value})
   }
 
@@ -103,27 +114,36 @@ export default class Questions extends React.Component{
             batchNumber: batch,
             questions,
         })
+        Swal.fire(
+        'Questions Uploaded Successfully!',
+        'Click the button to close.',
+        'success'
+        )
     } catch (error) {
-        console.log(error);
+        Swal.fire({
+        icon: 'error',
+        title: 'Questions upload error',
+        text: APIErrorHandler(error),
+        })
+        
     }finally{
 
     }
   }
 
     render(){
-        
+        const {file, subjects} = this.state;
         return <DashboardLayout>
             <div>
                 <DashboardTitle title="Questions upload" />
                 <Grid container spacing={1}>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <FormControl fullWidth>
                             <InputLabel id="batch">Enter Exam Batch</InputLabel>
                             <Input placeholder='Enter Exam batch Number' type='text' value={this.state.batch} name='batch' onChange={this.handleInputChange} />
 
                         </FormControl>
-                        {/* <Typography variant='subtitle' >Enter Batch</Typography> */}
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Select Subject</InputLabel>
@@ -136,10 +156,15 @@ export default class Questions extends React.Component{
                             onChange={this.handleInputChange}
                         >
                             <MenuItem value="">Select Subject</MenuItem>
-                            <MenuItem value="English">English</MenuItem>
-                            <MenuItem value="Mathematics">Mathematics</MenuItem>
+                            {
+                                subjects.map((subject, index) => {
+
+                                    return <MenuItem key={index} value={subject.id}>{subject.subject}</MenuItem>
+                                })
+                            }
+                            {/* <MenuItem value="Mathematics">Mathematics</MenuItem>
                             <MenuItem value="Chemistry">Chemistry</MenuItem>
-                            <MenuItem value="Physics">Physics</MenuItem>
+                            <MenuItem value="Physics">Physics</MenuItem> */}
                         </Select>
                         </FormControl>
                     </Grid>
@@ -148,7 +173,7 @@ export default class Questions extends React.Component{
                             {/* <InputLabel id="questions">Upload Exam Questions</InputLabel> */}
                             <input ref={this.fileRef} type='file' onChange={this.handleFileChange}  style={{width:0, height: 0}} />
                             <Button onClick={this.handleShowFileUpload} color="default" style={{margin: '1rem 0', background: "#f1f1f1", borderRadius: '20px'}}>Click to Upload Excel File</Button>
-                            {this.state.file && <Typography>{this.state.file.filename}</Typography>}
+                            {file && <Typography>{file.name}</Typography>}
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} style={{marginTop: '1rem'}}>

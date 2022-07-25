@@ -20,7 +20,6 @@ import { Tab, Tabs } from '@material-ui/core';
 // import Calculator from 'standart-calculator-react';
 // import { Calculator } from 'react-mac-calculator'
 // import Calculator from 'react-calculator';
-import NumericInput from 'react-calculator-input';
 
 const styles = theme => ({
   root: {
@@ -101,23 +100,31 @@ class Test extends React.Component {
 
   async componentDidMount() {
     const studentId = localStorage.getItem('studentId');
+    let student;
     if(studentId){
       const res = await BackendAPI.get(`/students/${studentId}`);
-      
+      student = res.data;
       if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
         alert("You have exhaused your time or you have completed your exam.")
         localStorage.removeItem('studentId')
         return this.props.history.replace('/')
       }
-      const subjectRes = await BackendAPI.get('/subjects'); 
+      const subjectRes = await BackendAPI.get(`/test/subjects/${student?.id}`); 
       const subjects = subjectRes.data;
+
+      /*  THIS KEEPS TRACK OF THE CURRENT QUESTION THE STUDENT
+      *   IS ON A SUBJECT
+       */
       subjects.map(subject => {
         this.setState({
           [`sub${subject.id}`]: 0, 
-        })
+        });
+
         this.setState({activeSubject: subjects[0], student: res.data});
         localStorage.setItem(`sub${subject.id}`,0);
       });
+      student.exam_status = "STARTED";
+      await BackendAPI.put(`/students/${student?.id}`, student)
       this.setState({subjects: subjectRes.data});
       this.setTime(res.data.time_left);
       localStorage.setItem('questionNo', JSON.stringify([]));
@@ -246,6 +253,7 @@ class Test extends React.Component {
 
   async updateUserTime(){
     let student = this.state.student;
+    if(student?.exam_status === 'STARTED')
     student.time_left = this.state.student ? this.state.student.time_left - 5 : 0;
     await BackendAPI.put(`/students/${student.id}`,{time_left: student.time_left});
     this.setState({student})
@@ -258,6 +266,7 @@ class Test extends React.Component {
 
     await BackendAPI.put(`/students/${student.id}`,student)
     clearInterval(this.timer);
+    clearInterval(this.timeUpdate);
     this.setState({
       submit: true
     })
@@ -265,6 +274,7 @@ class Test extends React.Component {
 
   handleTimeOut = () => {
     clearInterval(this.timer);
+    clearInterval(this.timeUpdate);
     localStorage.removeItem('studentId');
     this.setState({
       timeOut: true

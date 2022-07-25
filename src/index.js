@@ -18,6 +18,10 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import DashboardHome from './pages/Dashboard/DashboardHome';
 import CalculatorPage from './pages/Calculator';
+import {Candidates} from './pages/Dashboard/Candidates';
+import Questions from './pages/Dashboard/Questions';
+import {Results} from './pages/Dashboard/Results';
+import {EditCandidate} from './pages/Dashboard/EditCandidate';
 
 const theme = createMuiTheme({
   palette: {
@@ -76,6 +80,10 @@ class Index extends Component {
               <Route path="/candidates" component={Candidates} />
               <Route path="/dashboard" component={DashboardHome} />
               <Route path="/calculator" component={CalculatorPage} />
+              <Route path="/admin" component={DashboardHome} />
+              <Route path="/questions" component={Questions} />
+              <Route path="/results" component={Results} />
+              <Route path="/edit_candidate" component={EditCandidate} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />

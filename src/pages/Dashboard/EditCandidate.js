@@ -7,7 +7,7 @@ import DashboardLayout from '../../Components/layout/DashboardLayout';
 import { BackendAPI } from '../../lib/api';
 import MUIDataTable from "mui-datatables";
 // import moment from 'moment'
-import { Link, useParams  } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Icon from '@mui/material/Icon';
 // import { useParams, useSearchParams } from 'react-router-dom';
 const columns = [
@@ -27,7 +27,9 @@ const columns = [
 
 // export default class Candidates extends React.Component{
 
-export const EditCandidate = () =>{
+export const EditCandidate = ({match, location}) =>{
+  const params = new URLSearchParams(location.search);
+  const rgNumber = params.get('registrationNumber');
   // const { registrationNumber } = useParams();
 	const [registration, setRegistration] = useState(null)
 
@@ -42,18 +44,19 @@ export const EditCandidate = () =>{
   //     console.log(data);
   //   })
 	// }
-  const { registrationNumber } = useParams();
+  // const { registrationNumber } = match.params;
 	const [student, setStudent] = useState(null)
 	// const [settings, setSettings] = useState()
 
 	useEffect(()=>{
-			fetchStudent(registrationNumber)
+			fetchStudent(rgNumber)
 	},[])
 
 	const fetchStudent = async () => {
-			await BackendAPI.get(`/students/${registrationNumber}`).then(({data})=>{
-					setStudent(data.data)
-					console.log(data.data);
+    console.log(`/students/${rgNumber}`)
+			await BackendAPI.get(`/students/${rgNumber}`).then(({data})=>{
+					setStudent(data)
+					console.log(data);
 			})
 	}  
 
