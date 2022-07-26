@@ -18,10 +18,11 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import DashboardHome from './pages/Dashboard/DashboardHome';
 import CalculatorPage from './pages/Calculator';
-import {Candidates} from './pages/Dashboard/Candidates';
-import Questions from './pages/Dashboard/Questions';
-import {Results} from './pages/Dashboard/Results';
-import {EditCandidate} from './pages/Dashboard/EditCandidate';
+import { Candidates } from './pages/Dashboard/Candidates';
+import UploadQuestions from './pages/Dashboard/UploadQuestions';
+import { Questions } from './pages/Dashboard/Questions';
+import { Results } from './pages/Dashboard/Results';
+import { EditCandidate } from './pages/Dashboard/EditCandidate';
 
 const theme = createMuiTheme({
   palette: {
@@ -41,27 +42,27 @@ const theme = createMuiTheme({
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'd9eb23ed00e57f8645b7',
-    wsHost: window.location.hostname,
-    cluster: 'mt1',
-    wsPort: 6001,
-    forceTLS: false,
-    disableStats: true,
+  broadcaster: 'pusher',
+  key: 'd9eb23ed00e57f8645b7',
+  wsHost: window.location.hostname,
+  cluster: 'mt1',
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true,
 });
 
 window.Echo.channel(`test-channel`)
-        .listen('TestEvent', (e) => {
-            console.log("Soemthing dispatched");
-        });
+  .listen('TestEvent', (e) => {
+    console.log("Soemthing dispatched");
+  });
 
 class Index extends Component {
-  
-  componentDidMount(){
+
+  componentDidMount() {
     window.Echo.channel(`test-channel`)
-        .listen('TestEvent', (e) => {
-            console.log("Soemthing dispatched");
-        });
+      .listen('TestEvent', (e) => {
+        console.log("Soemthing dispatched");
+      });
   }
 
   render() {
@@ -82,6 +83,7 @@ class Index extends Component {
               <Route path="/calculator" component={CalculatorPage} />
               <Route path="/admin" component={DashboardHome} />
               <Route path="/questions" component={Questions} />
+              <Route path="/upload_questions" component={UploadQuestions} />
               <Route path="/results" component={Results} />
               <Route path="/edit_candidate" component={EditCandidate} />
               <Route component={notFoundPage} />

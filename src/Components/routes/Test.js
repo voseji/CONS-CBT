@@ -20,6 +20,9 @@ import { Tab, Tabs } from '@material-ui/core';
 // import Calculator from 'standart-calculator-react';
 // import { Calculator } from 'react-mac-calculator'
 // import Calculator from 'react-calculator';
+import Calculator from "awesome-react-calculator";
+import CalculatorPage from '../../pages/Calculator';
+// import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -49,6 +52,11 @@ const styles = theme => ({
 const navStyles = {
 
 }
+// const components = {
+//   "Calculator": <Calculator />
+// }
+// const [showResults, setShowResults] = React.useState(false)
+// const onClick = () => setShowResults(true)
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,21 +87,22 @@ function a11yProps(index) {
 
 
 class Test extends React.Component {
-  state = {
-    activeStep: 0,
-    examTime: undefined,
-    submit: false,
-    timeOut: false,
-    activeTab: 0,
-    subjects: [],
-    student: null,
-    currentQuestions: {},
-    activeStep: null,
-    activeSubject: null,
-  };
 
-  constructor(props){
+  constructor(props) {
     super(props);
+    this.state = {
+      activeStep: 0,
+      examTime: undefined,
+      submit: false,
+      timeOut: false,
+      activeTab: 0,
+      subjects: [],
+      student: null,
+      currentQuestions: {},
+      activeStep: null,
+      activeSubject: null,
+      shouldShow: false
+    };
     this.handleTabChange = this.handleTabChange.bind(this)
   }
 
@@ -101,7 +110,7 @@ class Test extends React.Component {
   async componentDidMount() {
     const studentId = localStorage.getItem('studentId');
     let student;
-    if(studentId){
+    if (studentId) {
       const res = await BackendAPI.get(`/students/${studentId}`);
       student = res.data;
       if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
@@ -109,7 +118,7 @@ class Test extends React.Component {
         localStorage.removeItem('studentId')
         return this.props.history.replace('/')
       }
-      const subjectRes = await BackendAPI.get(`/test/subjects/${student?.id}`); 
+      const subjectRes = await BackendAPI.get(`/test/subjects/${student?.id}`);
       const subjects = subjectRes.data;
 
       /*  THIS KEEPS TRACK OF THE CURRENT QUESTION THE STUDENT
@@ -117,15 +126,15 @@ class Test extends React.Component {
        */
       subjects.map(subject => {
         this.setState({
-          [`sub${subject.id}`]: 0, 
+          [`sub${subject.id}`]: 0,
         });
 
-        this.setState({activeSubject: subjects[0], student: res.data});
-        localStorage.setItem(`sub${subject.id}`,0);
+        this.setState({ activeSubject: subjects[0], student: res.data });
+        localStorage.setItem(`sub${subject.id}`, 0);
       });
       student.exam_status = "STARTED";
       await BackendAPI.put(`/students/${student?.id}`, student)
-      this.setState({subjects: subjectRes.data});
+      this.setState({ subjects: subjectRes.data });
       this.setTime(res.data.time_left);
       localStorage.setItem('questionNo', JSON.stringify([]));
       localStorage.setItem('candidateScore', String(0));
@@ -136,7 +145,7 @@ class Test extends React.Component {
   }
 
   async CountDown() {
-    
+
     if (this.state.examTime === 1000) {
       localStorage.setItem("Time", "Timed Up")
       this.handleTimeOut();
@@ -165,19 +174,19 @@ class Test extends React.Component {
   handleNext = () => {
     this.setState(prevState => ({
       activeStep: prevState.activeStep + 1,
-      [`sub${prevState.activeSubject.id}`]: prevState[[`sub${prevState.activeSubject.id}`]] + 1, 
+      [`sub${prevState.activeSubject.id}`]: prevState[[`sub${prevState.activeSubject.id}`]] + 1,
     }));
   };
 
   handleBack = () => {
     this.setState(prevState => ({
       activeStep: prevState.activeStep - 1,
-      [`sub${prevState.activeSubject.id}`]: prevState[[`sub${prevState.activeSubject.id}`]] - 1, 
+      [`sub${prevState.activeSubject.id}`]: prevState[[`sub${prevState.activeSubject.id}`]] - 1,
     }));
   };
 
   handleStepChange = activeStep => {
-    this.setState({ activeStep, [`sub${this.state.activeSubject.id}`]: activeStep});
+    this.setState({ activeStep, [`sub${this.state.activeSubject.id}`]: activeStep });
   };
 
   response = async (questionId, answerId) => {
@@ -185,22 +194,22 @@ class Test extends React.Component {
     const activeQuestion = this.state.activeSubject.questions[`sub${this.state.activeSubject.id} - 1`];
     // const answer = activeQuestion.find(answer => answer.id === answerId);
     // answer.isChecked = true;
-    const res = await BackendAPI.post('/questions/respond',{
+    const res = await BackendAPI.post('/questions/respond', {
       questionId,
       answerId,
       studentId,
     });
 
-    const {activeSubject, subjects} = this.state;
+    const { activeSubject, subjects } = this.state;
 
     const updatedActiveSubject = {
       ...activeSubject,
       questions: activeSubject.questions.map(question => {
-        if(question.id == parseInt(questionId)){
+        if (question.id == parseInt(questionId)) {
           return {
             ...question,
             answers: question.answers.map(answer => {
-              if(answer.id === parseInt(answerId)){
+              if (answer.id === parseInt(answerId)) {
                 answer.isChecked = true;
                 return answer;
               }
@@ -211,11 +220,11 @@ class Test extends React.Component {
         }
         return question;
       })
-      
+
     }
 
     const updatedSubjects = subjects.map(subject => {
-      if(subject.id === updatedActiveSubject.id) return updatedActiveSubject;
+      if (subject.id === updatedActiveSubject.id) return updatedActiveSubject;
       return subject;
     })
 
@@ -243,28 +252,28 @@ class Test extends React.Component {
     }
   }
 
-  setTime = (exam_time = 2) => { 
-    const examTime = Date.parse(new Date()) + (1000  * exam_time) - Date.parse(new Date());
+  setTime = (exam_time = 2) => {
+    const examTime = Date.parse(new Date()) + (1000 * exam_time) - Date.parse(new Date());
     this.setState({ examTime });
     this.timer = setInterval(() => this.CountDown(), 1000);
     this.timeUpdate = setInterval(() => this.updateUserTime(), 5000);
     this.remainingTime();
   }
 
-  async updateUserTime(){
+  async updateUserTime() {
     let student = this.state.student;
-    if(student?.exam_status === 'STARTED')
-    student.time_left = this.state.student ? this.state.student.time_left - 5 : 0;
-    await BackendAPI.put(`/students/${student.id}`,{time_left: student.time_left});
-    this.setState({student})
+    if (student?.exam_status === 'STARTED')
+      student.time_left = this.state.student ? this.state.student.time_left - 5 : 0;
+    await BackendAPI.put(`/students/${student.id}`, { time_left: student.time_left });
+    this.setState({ student })
   }
 
   handleSubmit = async () => {
-    let {student} = this.state;
+    let { student } = this.state;
     student.exam_status = "FINISHED";
     localStorage.removeItem('studentId');
 
-    await BackendAPI.put(`/students/${student.id}`,student)
+    await BackendAPI.put(`/students/${student.id}`, student)
     clearInterval(this.timer);
     clearInterval(this.timeUpdate);
     this.setState({
@@ -281,91 +290,96 @@ class Test extends React.Component {
     })
   }
 
-  handleTabChange(index){
+  handleTabChange(index) {
     const activeSubject = this.state.subjects[index]
-    this.setState({activeTab: index, activeSubject,})
+    this.setState({ activeTab: index, activeSubject, })
   }
 
   render() {
-    
+
     const { classes, theme } = this.props;
-    const {subjects, activeSubject} = this.state;
-    const activeStep = this.state[`sub${activeSubject ? activeSubject.id :''}`];
+    const { subjects, activeSubject } = this.state;
+    const activeStep = this.state[`sub${activeSubject ? activeSubject.id : ''}`];
     const maxSteps = activeSubject ? activeSubject.questions.length : 0;
     const authenticated = localStorage.getItem('authenticated');
     const guest = localStorage.getItem('guest');
     const activeStepId = activeSubject ? activeSubject.id : 0;
     return (
-      
-      <div className={classes.root}>
+      <>
+        <CalculatorPage shouldShow={this.state.shouldShow} close={() => {
+          this.setState({ shouldShow: false })
+        }} />
+        <div className={classes.root}>
           <div id="test">
             {this.state.submit === true ? <Redirect to="/" /> : null}
             {this.state.timeOut === true ? <Redirect to="/" /> : null}
 
             <Header examTime={this.remainingTime()} submit={this.handleSubmit} />
-
-
-            <div style={{display: 'flex', justifyContent: 'space-between', minHeight: '50vh'}}>
-              <div style={{width: '40%', overflowY: 'scroll'}}>
-                <Typography style={{padding: '1rem'}} variant='subtitle' color="secondary" component='h2' >
+            &nbsp;<Button variant="contained" color='secondary' className={classes.btn} onClick={() => {
+              this.setState({ shouldShow: !this.state.shouldShow })
+            }}  > Show Calculator </Button>
+            {/* { showResults ? <Calculator /> : null } */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', minHeight: '50vh' }}>
+              <div style={{ width: '40%', overflowY: 'scroll' }}>
+                <Typography style={{ padding: '1rem' }} variant='subtitle' color="secondary" component='h2' >
                   Question
                 </Typography>
                 <hr />
-                  <Paper square elevation={0} className={classes.header}>
-                    <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography>
-                  </Paper>
+                <Paper square elevation={0} className={classes.header}>
+                  <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography>
+                </Paper>
 
               </div>
-              <div style={{width: '40%',}}>
-                <Typography  style={{padding: '1rem'}} variant='subtitle' color="secondary" component='h2' >
-                  Options | swipe left or right to change question
+              <div style={{ width: '40%', }}>
+                <Typography style={{ padding: '1rem' }} variant='subtitle' color="secondary" component='h2' >
+                  Options
                 </Typography>
                 <hr />
-                  <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={this.state[`sub${activeStepId}`]}
-                    onChangeIndex={this.handleStepChange}
-                    enableMouseEvents
-                  >
-                    {
-                      activeSubject && activeSubject.questions ? 
-                        activeSubject.questions.map(question => {
-                          return <Objective
-                            objective={question.answers}
-                            question={question}
-                            key={question.id}
-                            response={this.response}
-                            checkQuestionNo={(quesNo) => this.checkQuestionNo(quesNo)} />
+                <SwipeableViews
+                  axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                  index={this.state[`sub${activeStepId}`]}
+                  onChangeIndex={this.handleStepChange}
+                  enableMouseEvents
+                >
+                  {
+                    activeSubject && activeSubject.questions ?
+                      activeSubject.questions.map(question => {
+                        return <Objective
+                          objective={question.answers}
+                          question={question}
+                          key={question.id}
+                          response={this.response}
+                          checkQuestionNo={(quesNo) => this.checkQuestionNo(quesNo)} />
 
-                        })
+                      })
                       : <div></div>
-                      // this.state.subjects.map(subject => {
-                      //   return subject.questions.map(question => {
-                      //     return <Objective
-                      //       objective={question.answers}
-                      //       question={question}
-                      //       key={question.id}
-                      //       response={this.response}
-                      //       checkQuestionNo={(quesNo) => this.checkQuestionNo(quesNo)} />
+                    // this.state.subjects.map(subject => {
+                    //   return subject.questions.map(question => {
+                    //     return <Objective
+                    //       objective={question.answers}
+                    //       question={question}
+                    //       key={question.id}
+                    //       response={this.response}
+                    //       checkQuestionNo={(quesNo) => this.checkQuestionNo(quesNo)} />
 
-                      //   })
-                      // })
-                    }
-                    {/* {Questions.map(question => (
+                    //   })
+                    // })
+                  }
+                  {/* {Questions.map(question => (
                     ))} */}
 
-                    
 
-                  </SwipeableViews>
+
+                </SwipeableViews>
 
               </div>
               <div className='test_bio_container'>
-                <img src='/images/avatar/passport.png' style={{maxWidth: '100px', borderRadius: '20px'}} />
+                <img src='/images/avatar/passport.png' style={{ maxWidth: '100px', borderRadius: '20px' }} />
                 <h3>{this.state.student ? this.state.student.lastName : ''} {this.state.student ? this.state.student.firstName : ''}</h3>
-                  <hr />
-                  <p style={{marginTop: '2rem'}}>Application Number:  {this.state.student ? this.state.student.registrationNumber : ''}</p>
-                  <p>Batch Number: {this.state.student ? this.state.student.batch : ''}</p>
-                  
+                <hr />
+                <p style={{ marginTop: '2rem' }}>Application Number:  {this.state.student ? this.state.student.registrationNumber : ''}</p>
+                <p>Batch Number: {this.state.student ? this.state.student.batch : ''}</p>
+
               </div>
             </div>
 
@@ -378,55 +392,56 @@ class Test extends React.Component {
               nextButton={
                 <Button size="small" onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
                   Next
-              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                  {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                 </Button>
               }
               backButton={
-                <Button size="small" onClick={this.handleBack} disabled={activeStep ===  0}>
+                <Button size="small" onClick={this.handleBack} disabled={activeStep === 0}>
                   {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                   Back
-            </Button>
+                </Button>
               }
             />
           </div>
           {/* : <Redirect to="/not-found" /> */}
-              <div sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={this.state.activeTab} aria-label="basic tabs example">
-                  {
-                    subjects.map((subject, index) => {
-                      return <Tab 
-                        key={index} 
-                        label={subject.subject} 
-                        {...a11yProps(0)}  
-                        onClick={() => this.handleTabChange(index)} />
-                    })
-                  }
-                  {/* <Tab label="Item One" {...a11yProps(0)}  onClick={() => this.setState({activeTab: 0})} />
+          <div sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={this.state.activeTab} aria-label="basic tabs example">
+              {
+                subjects.map((subject, index) => {
+                  return <Tab
+                    key={index}
+                    label={subject.subject}
+                    {...a11yProps(0)}
+                    onClick={() => this.handleTabChange(index)} />
+                })
+              }
+              {/* <Tab label="Item One" {...a11yProps(0)}  onClick={() => this.setState({activeTab: 0})} />
                   <Tab label="Item Two"  {...a11yProps(1)} onClick={() => this.setState({activeTab: 1})} />
                   <Tab label="Item Three"  {...a11yProps(2)}  onClick={() => this.setState({activeTab: 2})} /> */}
-                </Tabs>
-              </div>
-              <div className='test_nav_container'>
-                  <ul>
-                    {
-                      activeSubject && activeSubject.questions ? 
-                        activeSubject.questions.map((question, index) => {
-                          const checked = question.answers.find(answer => {
-                            return answer.hasOwnProperty('isChecked') ? answer.isChecked :  answer.answers.length;
-                          });
-                          return <li 
-                          onClick={() => this.setState({[`sub${this.state.activeSubject.id}`]: index})}
-                          className={
-                            checked ? "active" : ''
-                          }>{index + 1}</li>
+            </Tabs>
+          </div>
+          <div className='test_nav_container'>
+            <ul>
+              {
+                activeSubject && activeSubject.questions ?
+                  activeSubject.questions.map((question, index) => {
+                    const checked = question.answers.find(answer => {
+                      return answer.hasOwnProperty('isChecked') ? answer.isChecked : answer.answers.length;
+                    });
+                    return <li
+                      onClick={() => this.setState({ [`sub${this.state.activeSubject.id}`]: index })}
+                      className={
+                        checked ? "active" : ''
+                      }>{index + 1}</li>
 
-                        })
-                      : <div></div>
-                    }
-                  </ul>
-              </div>
-              
-      </div>
+                  })
+                  : <div></div>
+              }
+            </ul>
+          </div>
+
+        </div>
+      </>
     );
   }
 }

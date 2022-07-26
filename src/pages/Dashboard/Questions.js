@@ -1,186 +1,80 @@
 import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
-import React from 'react';
+// import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DashboardTitle from '../../Components/DashboardTitle/DashboardTitle';
 import DashboardLayout from '../../Components/layout/DashboardLayout';
-import * as XLSX from 'xlsx';
-import { APIErrorHandler, BackendAPI } from '../../lib/api';
-import Swal from 'sweetalert2';
+// import * as XLSX from 'xlsx';
+import { BackendAPI } from '../../lib/api';
+import MUIDataTable from "mui-datatables";
+// import moment from 'moment'
+import { Link } from 'react-router-dom';
+import Icon from '@mui/material/Icon';
+import { remainingTime } from '../../lib/time.lib';
+// import Button from '@material-ui/core/Button';
 
+const columns = [
 
-export default class Questions extends React.Component{
+  { label: "Subject", name: "subject" },
+  { label: "Question", name: "question" },
 
-    constructor(props){
-        super(props);
-        this.state = {
-            file: null,
-            subject: '',
-            batch: 'A1',
-            questions: [],
-            subjects: [],
-            batches: [],
-
-        }
-
-        this.fileRef = React.createRef();
-
-        this.handleFileChange = this.handleFileChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleShowFileUpload = this.handleShowFileUpload.bind(this);
-        this.handleUploadQuestions = this.handleUploadQuestions.bind(this);
-    }
-
-    async componentDidMount(){
-        try{
-            const subjectRes = await BackendAPI.get('/subjects');
-            this.setState({subjects: subjectRes.data});
-        }catch(e){
-
-        }
-    }
-
-    async handleFileChange(e){
-        // e.stopPropagation();
-        e.preventDefault();
-        var file = e.target.files[0];
-        await this.readFile(file);
-        this.setState({ file });
-    }
-
-     readFile(file) {
-        var f = file;
-        var name = f.name;
-        const reader = new FileReader();
-        let data;
-        reader.onload = (evt) => {
-        // evt = on_file_select event
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        /* Update state */
-        this.setState({questions: this.convertToJson(data)}); // shows data in json format
-        // return this.convertToJson(data);
-        };
-        reader.readAsBinaryString(f);
-        // return this.convertToJson(data);
-    }
-
-  convertToJson(csv) {
-    var lines = csv.split("\n");
-
-    var result = [];
-
-    var headers = lines[0].split(",");
-
-    for (var i = 1; i < lines.length; i++) {
-      var obj = {};
-      var currentline = lines[i].split(",");
-
-      for (var j = 0; j < headers.length; j++) {
-        obj[j] = currentline[j];
+  {
+    label: "Action", name: "", options: {
+      customBodyRender: (registrationNumber) => {
+        return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>Edit/Rebatch</Link>
       }
-
-      result.push(obj);
     }
+  },
+  //  { label: "Action", name: "", options: {customBodyRender: (registrationNumber) => {
+  //   return <Icon color="primary"
+  //   component={Link}
+  //   to={{pathname: `/edit_candidate?registrationNumber=${registrationNumber}`}}
+  //   >edit</Icon>
+  // }} },
 
-    //return result; //JavaScript object
-    return result; //JSON
+
+];
+
+
+
+// export default class Candidates extends React.Component{
+
+export const Questions = () => {
+  // render(){
+
+  const [allregdetails, setAllRegDetails] = useState([])
+  useEffect(() => {
+    fetchAllRegDetails()
+  }, [])
+  const fetchAllRegDetails = async () => {
+    await BackendAPI.get(`/questions`).then(({ data }) => {
+      // setFacilityType1(data?.data)
+      setAllRegDetails(data)
+      console.log(data);
+    })
   }
 
-  handleInputChange(e){
-    this.setState({[e.target.name]: e.target.value})
-  }
+  return <DashboardLayout>
+    <div>
+      <DashboardTitle title="Questions" />
+      <Link to="/upload_questions">
+        <Button variant="contained" color='secondary'>Upload Questions</Button>
+      </Link>
+      <MUIDataTable
+        columns={columns}
+        data={allregdetails.map((registration, index) => [
+          // index +1, 
+          // registration.createdAt,
+          registration.subject,
 
-  handleShowFileUpload(){
-    this.fileRef.current.click()
-  }
+          registration.question,
 
-  async handleUploadQuestions(){
-    
-    const {subject, batch, file, questions} = this.state;
-    if (!file) {
-        return alert('You must upload a questions file');
-    }
+          registration.registrationNumber,
 
-    if(!questions || !questions.length) return alert("No question found in uploaded file.");
+        ])}
 
-    try {
-        const res = await BackendAPI.post('/questions',{
-            subject,
-            batchNumber: batch,
-            questions,
-        })
-        Swal.fire(
-        'Questions Uploaded Successfully!',
-        'Click the button to close.',
-        'success'
-        )
-    } catch (error) {
-        Swal.fire({
-        icon: 'error',
-        title: 'Questions upload error',
-        text: APIErrorHandler(error),
-        })
-        
-    }finally{
-
-    }
-  }
-
-    render(){
-        const {file, subjects} = this.state;
-        return <DashboardLayout>
-            <div>
-                <DashboardTitle title="Questions upload" />
-                <Grid container spacing={1}>
-                    {/* <Grid item xs={12}>
-                        <FormControl fullWidth>
-                            <InputLabel id="batch">Enter Exam Batch</InputLabel>
-                            <Input placeholder='Enter Exam batch Number' type='text' value={this.state.batch} name='batch' onChange={this.handleInputChange} />
-
-                        </FormControl>
-                    </Grid> */}
-                    <Grid item xs={12}>
-                        <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Select Subject</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={this.state.subject}
-                            label="Age"
-                            name='subject'
-                            onChange={this.handleInputChange}
-                        >
-                            <MenuItem value="">Select Subject</MenuItem>
-                            {
-                                subjects.map((subject, index) => {
-
-                                    return <MenuItem key={index} value={subject.id}>{subject.subject}</MenuItem>
-                                })
-                            }
-                            {/* <MenuItem value="Mathematics">Mathematics</MenuItem>
-                            <MenuItem value="Chemistry">Chemistry</MenuItem>
-                            <MenuItem value="Physics">Physics</MenuItem> */}
-                        </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControl>
-                            {/* <InputLabel id="questions">Upload Exam Questions</InputLabel> */}
-                            <input ref={this.fileRef} type='file' onChange={this.handleFileChange}  style={{width:0, height: 0}} />
-                            <Button onClick={this.handleShowFileUpload} color="default" style={{margin: '1rem 0', background: "#f1f1f1", borderRadius: '20px'}}>Click to Upload Excel File</Button>
-                            {file && <Typography>{file.name}</Typography>}
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} style={{marginTop: '1rem'}}>
-                        <Button onClick={this.handleUploadQuestions} variant='contained' color="secondary">Upload Questions</Button>
-                    </Grid>
-                </Grid>
-            </div>
-        </DashboardLayout>
-    }
+        options={{ selectableRows: 'none', elevation: 0 }}
+      />
+    </div>
+  </DashboardLayout>
 }
+// }
