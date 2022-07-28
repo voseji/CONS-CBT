@@ -14,13 +14,13 @@ import { remainingTime } from '../../lib/time.lib';
 
 const columns = [
 
-  { label: "Subject", name: "subject" },
+  { label: "Question", name: "question" },
   { label: "", name: "" },
 
   {
     label: "Action", name: "", options: {
-      customBodyRender: (registrationNumber) => {
-        return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>View Questions</Link>
+      customBodyRender: (id) => {
+        return <Link to={`/edit_question?qid=${id}`}>Edit Question</Link>
       }
     }
   },
@@ -31,19 +31,32 @@ const columns = [
 // export default class Candidates extends React.Component{
 
 export const Questions = () => {
+  const params = new URLSearchParams(location.search);
+  const sid = params.get('sid');
+  const [question, setQuestion] = useState([])
+  const [subject, setSubject] = useState([])
   // render(){
-
-  const [allregdetails, setAllRegDetails] = useState([])
   useEffect(() => {
-    fetchAllRegDetails()
+    fetchQuestion(sid)
+    fetchSubject(sid)
   }, [])
-  const fetchAllRegDetails = async () => {
-    await BackendAPI.get(`/subjects`).then(({ data }) => {
-      // setFacilityType1(data?.data)
-      setAllRegDetails(data)
+
+  const fetchQuestion = async () => {
+    // console.log(`/subject_questions/${sid}`)
+    await BackendAPI.get(`/subject_questions/${sid}`).then(({ data }) => {
+      setQuestion(data)
       console.log(data);
     })
   }
+
+  const fetchSubject = async () => {
+    // console.log(`/subject_questions/${sid}`)
+    await BackendAPI.get(`/subject/${sid}`).then(({ data }) => {
+      setSubject(data)
+      console.log(data);
+    })
+  }
+
 
   return <DashboardLayout>
     <div>
@@ -51,17 +64,18 @@ export const Questions = () => {
       <Link to="/upload_questions">
         <Button variant="contained" color='secondary'>Upload Questions</Button>
       </Link>
-      <DashboardTitle title="Subject (Questions)" />
+
+      <DashboardTitle title={`${subject?.subject} Questions`} />
       <MUIDataTable
         columns={columns}
-        data={allregdetails.map((registration, index) => [
+        data={question.map((question, index) => [
           // index +1, 
           // registration.createdAt,
-          registration.subject,
+          question.question,
 
-          registration.question,
+          question.question2,
 
-          registration.registrationNumber,
+          question.id,
 
         ])}
 

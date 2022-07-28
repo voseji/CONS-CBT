@@ -19,8 +19,8 @@ const columns = [
 
   {
     label: "Action", name: "", options: {
-      customBodyRender: (registrationNumber) => {
-        return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>View Questions</Link>
+      customBodyRender: (id) => {
+        return <Link to={`/questions?sid=${id}`}>View Questions</Link>
       }
     }
   },
@@ -61,7 +61,7 @@ export const Subjects = () => {
 
           registration.question,
 
-          registration.registrationNumber,
+          registration.id,
 
         ])}
 

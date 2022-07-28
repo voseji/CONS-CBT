@@ -20,12 +20,13 @@ import DashboardHome from './pages/Dashboard/DashboardHome';
 import CalculatorPage from './pages/Calculator';
 import { Candidates } from './pages/Dashboard/Candidates';
 import UploadQuestions from './pages/Dashboard/UploadQuestions';
-import { Questions } from './pages/Dashboard/Subjects';
+import { Subjects } from './pages/Dashboard/Subjects';
+import { Questions } from './pages/Dashboard/Questions';
 import { Results } from './pages/Dashboard/Results';
 import { EditCandidate } from './pages/Dashboard/EditCandidate';
 import { Batches } from './pages/Dashboard/Batches';
 import { NewBatch } from './pages/Dashboard/NewBatch';
-import { Subjects } from './pages/Dashboard/Subjects';
+import { EditQuestion } from './pages/Dashboard/EditQuestion';
 
 const theme = createMuiTheme({
   palette: {
@@ -91,6 +92,8 @@ class Index extends Component {
               <Route path="/edit_candidate" component={EditCandidate} />
               <Route path="/batches" component={Batches} />
               <Route path="/create_batch" component={NewBatch} />
+              <Route path="/questions" component={Questions} />
+              <Route path="/edit_question" component={EditQuestion} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />
