@@ -9,7 +9,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 // import Questions from '../Questions';
-import Objective from '../Objective';
+import Objective from '../TestObjective';
 // import Tabs from '@material-ui/core/Tabs'
 // import Tab from '@material-ui/core/Tab'
 import Header from '../Header';
@@ -22,6 +22,7 @@ import { Tab, Tabs } from '@material-ui/core';
 // import Calculator from 'react-calculator';
 import Calculator from "awesome-react-calculator";
 import CalculatorPage from '../../pages/Calculator';
+import { demoQuestions } from '../../lib/demo';
 // import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
@@ -49,9 +50,7 @@ const styles = theme => ({
   },
 });
 
-const navStyles = {
-
-}
+const demoSubjects = demoQuestions;
 // const components = {
 //   "Calculator": <Calculator />
 // }
@@ -86,7 +85,7 @@ function a11yProps(index) {
 }
 
 
-class Test extends React.Component {
+class PreTest extends React.Component {
 
   constructor(props) {
     super(props);
@@ -118,8 +117,8 @@ class Test extends React.Component {
         localStorage.removeItem('studentId')
         return this.props.history.replace('/')
       }
-      const subjectRes = await BackendAPI.get(`/test/subjects/${student?.id}`);
-      const subjects = subjectRes.data;
+      // const subjectRes = await demoSubjects;
+      const subjects = demoSubjects;
 
       /*  THIS KEEPS TRACK OF THE CURRENT QUESTION THE STUDENT
       *   IS ON A SUBJECT
@@ -132,10 +131,9 @@ class Test extends React.Component {
         this.setState({ activeSubject: subjects[0], student: res.data });
         localStorage.setItem(`sub${subject.id}`, 0);
       });
-      student.exam_status = "STARTED";
-      await BackendAPI.put(`/students/${student?.id}`, student)
-      this.setState({ subjects: subjectRes.data });
-      this.setTime(res.data.time_left);
+      
+      this.setState({ subjects });
+      this.setTime(1000);
       localStorage.setItem('questionNo', JSON.stringify([]));
       localStorage.setItem('candidateScore', String(0));
       return;
@@ -194,11 +192,11 @@ class Test extends React.Component {
     const activeQuestion = this.state.activeSubject.questions[`sub${this.state.activeSubject.id} - 1`];
     // const answer = activeQuestion.find(answer => answer.id === answerId);
     // answer.isChecked = true;
-    const res = await BackendAPI.post('/questions/respond', {
-      questionId,
-      answerId,
-      studentId,
-    });
+    // const res = await BackendAPI.post('/questions/respond', {
+    //   questionId,
+    //   answerId,
+    //   studentId,
+    // });
 
     const { activeSubject, subjects } = this.state;
 
@@ -256,7 +254,7 @@ class Test extends React.Component {
     const examTime = Date.parse(new Date()) + (1000 * exam_time) - Date.parse(new Date());
     this.setState({ examTime });
     this.timer = setInterval(() => this.CountDown(), 1000);
-    this.timeUpdate = setInterval(() => this.updateUserTime(), 5000);
+    // this.timeUpdate = setInterval(() => this.updateUserTime(), 5000);
     this.remainingTime();
   }
 
@@ -269,26 +267,18 @@ class Test extends React.Component {
   }
 
   handleSubmit = async () => {
-    let { student } = this.state;
-    student.exam_status = "FINISHED";
-    localStorage.removeItem('studentId');
-
-    await BackendAPI.put(`/students/${student.id}`, student)
     clearInterval(this.timer);
     clearInterval(this.timeUpdate);
+    this.props.history.replace('/test');
     this.setState({
       submit: true
     })
   }
 
-  handleTimeOut = async () => {
-    let { student } = this.state;
-    student.exam_status = "FINISHED";
-    localStorage.removeItem('studentId');
-    await BackendAPI.put(`/students/${student.id}`, student)
+  handleTimeOut = () => {
     clearInterval(this.timer);
     clearInterval(this.timeUpdate);
-    localStorage.removeItem('studentId');
+    this.props.history.replace('/test');
     this.setState({
       timeOut: true
     })
@@ -319,6 +309,7 @@ class Test extends React.Component {
             {this.state.timeOut === true ? <Redirect to="/" /> : null}
 
             <Header examTime={this.remainingTime()} submit={this.handleSubmit} />
+            <div className='blinker'>These are demo questions and do not add up to your scores. Submit to start main exam</div>
             &nbsp;<Button variant="contained" color='secondary' className={classes.btn} onClick={() => {
               this.setState({ shouldShow: !this.state.shouldShow })
             }}  > Show Calculator </Button>
@@ -382,7 +373,7 @@ class Test extends React.Component {
                 <h3>{this.state.student ? this.state.student.lastName : ''} {this.state.student ? this.state.student.firstName : ''}</h3>
                 <hr />
                 <p style={{ marginTop: '2rem' }}>Application Number:  {this.state.student ? this.state.student.registrationNumber : ''}</p>
-                <p>Batch Number: {this.state.student ? this.state.student?.batch : ''}</p>
+                <p>Batch Number: {this.state.student ? this.state.student?.batch?.batch : ''}</p>
 
               </div>
             </div>
@@ -430,7 +421,7 @@ class Test extends React.Component {
                 activeSubject && activeSubject.questions ?
                   activeSubject.questions.map((question, index) => {
                     const checked = question.answers.find(answer => {
-                      return answer.hasOwnProperty('isChecked') ? answer.isChecked : answer.answers.length;
+                      return answer.isChecked ;
                     });
                     return <li
                       onClick={() => this.setState({ [`sub${this.state.activeSubject.id}`]: index })}
@@ -450,10 +441,10 @@ class Test extends React.Component {
   }
 }
 
-Test.propTypes = {
+PreTest.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Test);
+export default withStyles(styles, { withTheme: true })(PreTest);
 

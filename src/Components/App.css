@@ -300,3 +300,38 @@ th button {
 input {
   variant: contained;
 }
+
+.status{
+  border-radius: 20px;
+  padding: .3rem .7rem;
+  background-color: #a8a6a7;
+  font-size: 10pt;
+}
+
+.status.active{
+  color: #0e740b;
+  /* background-color: #139e0e73; */
+}
+
+.status.inactive{
+  color: #9e0e0e;
+  /* background-color: #9e0e0e62; */
+}
+
+.blinker{
+  display: block;
+  text-align: center;
+  animation: blink 3s linear infinite;
+  background-color: #9e0e0e;
+  color: #fff;
+  margin: -1rem auto;
+  width: 500px;
+  
+}
+
+@keyframes blink {
+  100%{
+    background-color: #fff;
+    color: #9e0e0e;
+  }
+}
