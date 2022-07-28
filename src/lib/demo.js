@@ -5,7 +5,7 @@ export const demoQuestions = [
     questions: [
       {
         id: 1,
-        question: "Who is the footballer of the year 2013?",
+        question: "<strong>Who is the footballer of the year 2013? </strong>",
         answers: [
           {
             id: 1,

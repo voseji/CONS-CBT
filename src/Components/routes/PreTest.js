@@ -321,7 +321,8 @@ class PreTest extends React.Component {
                 </Typography>
                 <hr />
                 <Paper square elevation={0} className={classes.header}>
-                  <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography>
+                  <div dangerouslySetInnerHTML={{__html: `${this.state[`sub${activeStepId}`] + 1}. ${activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}`}} />
+                  {/* <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography> */}
                 </Paper>
 
               </div>
