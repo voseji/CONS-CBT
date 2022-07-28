@@ -46,7 +46,6 @@ export const EditQuestion = ({ match, location }) => {
   }, [])
 
   const fetchSubject = async () => {
-    console.log(`/one_question/${qid}`)
     await BackendAPI.get(`/one_question/${qid}`).then(({ data }) => {
       setSubject(data)
       console.log(data);
@@ -56,14 +55,13 @@ export const EditQuestion = ({ match, location }) => {
   const updateProduct = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData()
-    console.log(student)
-    formData.append('_method', 'PUT');
-    formData.append('batch', student?.batch)
+    // const formData = new FormData()
+    // formData.append('_method', 'PUT');
+    // formData.append('batch', student?.batch)
+    console.log(subject)
 
 
-
-    await BackendAPI.post(`/students/${qid}`, formData).then(({ data }) => {
+    await BackendAPI.put(`/questions/${qid}`, subject).then(({ data }) => {
 
       Swal.fire({
         icon: "success",
@@ -85,6 +83,19 @@ export const EditQuestion = ({ match, location }) => {
   const handleStudentFieldChange = event => {
     return setStudent(prevState => ({
       [event.target.name]: event.target.value
+    }))
+  }
+
+  const handleAnswerChange = (e) => {
+    setSubject(prevState => ({
+      ...prevState,
+      answers: prevState.answers.map(answer => {
+        if (answer.id == e.target.name) {
+          answer.answer = e.target.value;
+          return answer;
+        }
+        return answer;
+      })
     }))
   }
   return <DashboardLayout>
@@ -109,25 +120,29 @@ export const EditQuestion = ({ match, location }) => {
         }}
         onChange={handleStudentFieldChange}
       />
+      {
+        subject.answers && subject.answers.map((answer, index) => {
+          return <TextField
+            label="Option"
+            variant="outlined"
+            fullWidth
+            placeholder={"Answer"}
+            value={answer?.answer}
+            sx={{ my: 3, mx: 2 }}
+            name={answer.id}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Book />
+                </InputAdornment>
+              )
+            }}
+            onChange={handleAnswerChange}
+          />
+        })
+      }
 
 
-      <TextField
-        label="Option"
-        variant="outlined"
-        fullWidth
-        placeholder={"Batch"}
-        value={subject?.answers}
-        sx={{ my: 3, mx: 2 }}
-        name='batch'
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Book />
-            </InputAdornment>
-          )
-        }}
-        onChange={handleStudentFieldChange}
-      />
       <br />
 
       <Button variant="contained" color='secondary' onClick={updateProduct}>Submit</Button>

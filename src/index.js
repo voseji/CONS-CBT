@@ -27,6 +27,7 @@ import { EditCandidate } from './pages/Dashboard/EditCandidate';
 import { Batches } from './pages/Dashboard/Batches';
 import { NewBatch } from './pages/Dashboard/NewBatch';
 import PreTest from './Components/routes/PreTest';
+import { EditQuestion } from './pages/Dashboard/EditQuestion';
 
 const theme = createMuiTheme({
   palette: {
