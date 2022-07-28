@@ -20,11 +20,12 @@ import DashboardHome from './pages/Dashboard/DashboardHome';
 import CalculatorPage from './pages/Calculator';
 import { Candidates } from './pages/Dashboard/Candidates';
 import UploadQuestions from './pages/Dashboard/UploadQuestions';
-import { Questions } from './pages/Dashboard/Questions';
+import { Questions } from './pages/Dashboard/Subjects';
 import { Results } from './pages/Dashboard/Results';
 import { EditCandidate } from './pages/Dashboard/EditCandidate';
 import { Batches } from './pages/Dashboard/Batches';
 import { NewBatch } from './pages/Dashboard/NewBatch';
+import { Subjects } from './pages/Dashboard/Subjects';
 
 const theme = createMuiTheme({
   palette: {
@@ -84,7 +85,7 @@ class Index extends Component {
               <Route path="/dashboard" component={DashboardHome} />
               <Route path="/calculator" component={CalculatorPage} />
               <Route path="/admin" component={DashboardHome} />
-              <Route path="/questions" component={Questions} />
+              <Route path="/subjects" component={Subjects} />
               <Route path="/upload_questions" component={UploadQuestions} />
               <Route path="/results" component={Results} />
               <Route path="/edit_candidate" component={EditCandidate} />

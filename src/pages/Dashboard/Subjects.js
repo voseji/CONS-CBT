@@ -30,7 +30,7 @@ const columns = [
 
 // export default class Candidates extends React.Component{
 
-export const Questions = () => {
+export const Subjects = () => {
   // render(){
 
   const [allregdetails, setAllRegDetails] = useState([])
