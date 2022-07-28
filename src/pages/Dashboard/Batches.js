@@ -9,133 +9,65 @@ import MUIDataTable from "mui-datatables";
 // import moment from 'moment'
 import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
-import Swal from 'sweetalert2';
+import { remainingTime } from '../../lib/time.lib';
+// import Button from '@material-ui/core/Button';
 
-// import { useParams, useSearchParams } from 'react-router-dom';
+const columns = [
+
+  { label: "Batch Name", name: "batch" },
+  { label: "Day", name: "day" },
+  { label: "Time", name: "time" },
+  { label: "Status", name: "status" },
+  {
+    label: "Action", name: "", options: {
+      customBodyRender: (batchId) => {
+        return <Link to={`/edit_batch?batchId=${batchId}`}>Edit Batch</Link>
+      }
+    }
+  },
+];
 
 
 
 // export default class Candidates extends React.Component{
 
-export const Batches = ({ match, location }) => {
-  const params = new URLSearchParams(location.search);
-  const rgNumber = params.get('registrationNumber');
-  // const { registrationNumber } = useParams();
-  const [registration, setRegistration] = useState(null)
+export const Batches = () => {
+  // render(){
 
-  // useEffect(()=>{
-  //   fetchRegistration(registrationNumber)
-  // },[])
-
-  // const [searchParams, setSearchParams] =useSearchParams()
-  // const fetchRegistration = async () => {
-  //   await BackendAPI.get(`/student/${searchParams.get('registrationNumber')}`).then(({data})=>{
-  //     setRegistration(data)
-  //     console.log(data);
-  //   })
-  // }
-  // const { registrationNumber } = match.params;
-  // const [formNumber, setFormNumber] = useState("")
-  const [batch, setBatch] = useState("")
-  const [student, setStudent] = useState(null)
-  // const [settings, setSettings] = useState()
-
+  const [allregdetails, setAllRegDetails] = useState([])
   useEffect(() => {
-    fetchStudent(rgNumber)
+    fetchAllRegDetails()
   }, [])
-
-  const fetchStudent = async () => {
-    console.log(`/students/${rgNumber}`)
-    await BackendAPI.get(`/students/${rgNumber}`).then(({ data }) => {
-      setStudent(data)
+  const fetchAllRegDetails = async () => {
+    await BackendAPI.get(`/batches`).then(({ data }) => {
+      // setFacilityType1(data?.data)
+      setAllRegDetails(data)
       console.log(data);
     })
   }
 
-  const updateProduct = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData()
-    formData.append('_method', 'PUT');
-    formData.append('batch', batch)
-
-
-
-    await BackendAPI.post(`/students/${rgNumber}`, formData).then(({ data }) => {
-
-      Swal.fire({
-        icon: "success",
-        text: data.message
-      })
-
-      // navigate("/")
-    }).catch(({ response }) => {
-      if (response.status === 422) {
-        setValidationError(response.data.errors)
-      } else {
-        Swal.fire({
-          text: response.data.message,
-          icon: "error"
-        })
-      }
-    })
-  }
-  const handleStudentFieldChange = event => {
-    return setStudent(prevState => ({
-      [event.target.name]: event.target.value
-    }))
-  }
   return <DashboardLayout>
     <div>
-      <DashboardTitle title="Edit Candidate" />
-      <InputLabel>First Name</InputLabel>
-      <br />
-      <Input
-        variant='outlined'
-        name='firstName'
-        placeholder={"First Name"}
-        value={student?.firstName}
+      <DashboardTitle title="Batches" />
+      <Link to="/create_batch">
+        <Button variant="contained" color='secondary'>Create New Batch</Button>
+      </Link>
+      <MUIDataTable
+        columns={columns}
+        data={allregdetails.map((registration, index) => [
+          // index +1, 
+          // registration.createdAt,
+          registration.batch,
+          registration.day,
+          registration.time,
+          registration.status,
+          registration.batchId,
+
+        ])}
+
+        options={{ selectableRows: 'none', elevation: 0 }}
       />
-      <br />
-
-      <br />
-      <InputLabel>Lastname</InputLabel>
-      <br />
-      <Input
-        variant='outlined'
-        name='firstName'
-        placeholder={"First Name"}
-        value={student?.lastName}
-      />
-      <br />
-
-      <br />
-      <InputLabel>Othernames</InputLabel>
-      <br />
-      <Input
-        variant='outlined'
-        name='firstName'
-        placeholder={"First Name"}
-        value={student?.otherNames}
-      />
-      <br />
-
-      <br />
-
-      <br />
-      <InputLabel>Batch</InputLabel>
-      <br />
-      <Input
-        variant="filled"
-        size="small"
-        name='batch'
-        placeholder={"Batch"}
-        value={student?.batch}
-        onChange={handleStudentFieldChange}
-      /><br />
-      <br />
-      <Button variant="contained" color='secondary' onClick={updateProduct}>Submit</Button>
-      <br />
     </div>
   </DashboardLayout>
 }
+// }

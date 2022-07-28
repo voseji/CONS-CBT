@@ -23,6 +23,8 @@ import UploadQuestions from './pages/Dashboard/UploadQuestions';
 import { Questions } from './pages/Dashboard/Questions';
 import { Results } from './pages/Dashboard/Results';
 import { EditCandidate } from './pages/Dashboard/EditCandidate';
+import { Batches } from './pages/Dashboard/Batches';
+import { NewBatch } from './pages/Dashboard/NewBatch';
 
 const theme = createMuiTheme({
   palette: {
@@ -86,6 +88,8 @@ class Index extends Component {
               <Route path="/upload_questions" component={UploadQuestions} />
               <Route path="/results" component={Results} />
               <Route path="/edit_candidate" component={EditCandidate} />
+              <Route path="/batches" component={Batches} />
+              <Route path="/create_batch" component={NewBatch} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />

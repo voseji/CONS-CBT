@@ -1,5 +1,5 @@
 import { AppBar, IconButton, Menu, Toolbar, Typography } from '@material-ui/core';
-import { Adjust, CameraFront, Dashboard, MenuOutlined, Power, QuestionAnswerOutlined } from '@material-ui/icons';
+import { Adjust, CameraFront, BookOutlined, Dashboard, MenuOutlined, Power, QuestionAnswerOutlined } from '@material-ui/icons';
 import React from 'react';
 
 export default class DashboardLayout extends React.Component {
@@ -42,6 +42,7 @@ export default class DashboardLayout extends React.Component {
                             <li className='active'><a href="/admin"> <Dashboard /> <span>Dashboard</span> </a></li>
                             <li><a href="/candidates"> <CameraFront /> <span>Candidates</span> </a></li>
                             <li><a href="/questions"> <QuestionAnswerOutlined /> <span>Questions</span> </a></li>
+                            <li><a href="/batches"> <BookOutlined /> <span>Batches</span> </a></li>
                             <li><a href="/results"> <Adjust /> <span>Results</span> </a></li>
                         </ul>
                         <div className="dashboard_sidebar_logout">

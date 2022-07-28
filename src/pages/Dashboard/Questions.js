@@ -20,7 +20,7 @@ const columns = [
   {
     label: "Action", name: "", options: {
       customBodyRender: (registrationNumber) => {
-        return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>Edit/Rebatch</Link>
+        return <Link to={`/edit_candidate?registrationNumber=${registrationNumber}`}>View Questions</Link>
       }
     }
   },
@@ -46,7 +46,7 @@ export const Questions = () => {
     fetchAllRegDetails()
   }, [])
   const fetchAllRegDetails = async () => {
-    await BackendAPI.get(`/questions`).then(({ data }) => {
+    await BackendAPI.get(`/subjects`).then(({ data }) => {
       // setFacilityType1(data?.data)
       setAllRegDetails(data)
       console.log(data);

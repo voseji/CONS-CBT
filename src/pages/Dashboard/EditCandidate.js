@@ -58,8 +58,9 @@ export const EditCandidate = ({ match, location }) => {
     e.preventDefault();
 
     const formData = new FormData()
+    console.log(student)
     formData.append('_method', 'PUT');
-    formData.append('batch', batch)
+    formData.append('batch', student?.batch)
 
 
 
@@ -97,6 +98,7 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"First Name"}
         value={student?.firstName}
         sx={{ my: 3, mx: 2 }}
+        name='firstName'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -113,6 +115,7 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"Last Name"}
         value={student?.lastName}
         sx={{ my: 3, mx: 2 }}
+        name='lastName'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -131,6 +134,7 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"Othernames"}
         value={student?.otherNames}
         sx={{ my: 3, mx: 2 }}
+        name='otherNames'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -149,6 +153,7 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"Batch"}
         value={student?.batch}
         sx={{ my: 3, mx: 2 }}
+        name='batch'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

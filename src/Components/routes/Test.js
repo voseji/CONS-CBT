@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
-import Questions from '../Questions';
+// import Questions from '../Questions';
 import Objective from '../Objective';
 // import Tabs from '@material-ui/core/Tabs'
 // import Tab from '@material-ui/core/Tab'
