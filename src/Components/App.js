@@ -87,7 +87,7 @@ class App extends React.Component {
       //   });
       // }
 
-      if (res.data && (res.data.time_left < 1 || res.data.exam_status === "FINISHED")) {
+      if (student?.time_left < 1 || student?.exam_status === "FINISHED") {
 
         Swal.fire({
         icon: 'error',
@@ -151,7 +151,7 @@ class App extends React.Component {
     return (
 
       <div className={classes.root}>
-        {this.state.hasCandidate === true ? <Redirect to="/test" /> : null}
+        {this.state.hasCandidate === true ? <Redirect to="/demo" /> : null}
         {/* <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map(label => {
             return (

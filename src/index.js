@@ -25,6 +25,7 @@ import { Results } from './pages/Dashboard/Results';
 import { EditCandidate } from './pages/Dashboard/EditCandidate';
 import { Batches } from './pages/Dashboard/Batches';
 import { NewBatch } from './pages/Dashboard/NewBatch';
+import PreTest from './Components/routes/PreTest';
 
 const theme = createMuiTheme({
   palette: {
@@ -76,6 +77,7 @@ class Index extends Component {
             <Switch>
               {/* <Route exact path="/" component={App} /> */}
               <Route exact path="/" component={App} />
+              <Route path="/demo" component={PreTest} />
               <Route path="/test" component={Test} />
               <Route path="/timeout" component={Timeout} />
               <Route path="/submit-response" component={SubmitResponse} />

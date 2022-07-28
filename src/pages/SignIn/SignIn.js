@@ -28,6 +28,14 @@ class SignIn extends React.Component {
         try {
             const res = await BackendAPI.get(`/students/${this.state.studentId}`);
             const student = res.data;
+            console.log(student)
+            if(student?.batch_data?.status.toLowerCase() !== "active"){
+                return Swal.fire({
+                icon: 'error',
+                title: "Notification:",
+                text: 'You are either not batched or your batch is inactive. Please contact the coordinator',
+                });
+            }
 
             if(student?.exam_status === "STARTED"){
                 return Swal.fire({
