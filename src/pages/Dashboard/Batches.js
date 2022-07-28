@@ -9,17 +9,15 @@ import MUIDataTable from "mui-datatables";
 // import moment from 'moment'
 import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
-import { InputAdornment, TextField } from "@mui/material"
 import Swal from 'sweetalert2';
-import { Person } from '@mui/icons-material';
-import { Book } from '@mui/icons-material';
+
 // import { useParams, useSearchParams } from 'react-router-dom';
 
 
 
 // export default class Candidates extends React.Component{
 
-export const EditCandidate = ({ match, location }) => {
+export const Batches = ({ match, location }) => {
   const params = new URLSearchParams(location.search);
   const rgNumber = params.get('registrationNumber');
   // const { registrationNumber } = useParams();
@@ -88,78 +86,54 @@ export const EditCandidate = ({ match, location }) => {
     }))
   }
   return <DashboardLayout>
-    <div style={{ width: '50%' }}>
+    <div>
       <DashboardTitle title="Edit Candidate" />
-      <TextField
-        label="First name"
-        variant="outlined"
-        fullWidth
+      <InputLabel>First Name</InputLabel>
+      <br />
+      <Input
+        variant='outlined'
+        name='firstName'
         placeholder={"First Name"}
         value={student?.firstName}
-        sx={{ my: 3, mx: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Person />
-            </InputAdornment>
-          )
-        }}
-        onChange={handleStudentFieldChange}
       />
-      <TextField
-        label="Lastname"
-        variant="outlined"
-        fullWidth
-        placeholder={"Last Name"}
+      <br />
+
+      <br />
+      <InputLabel>Lastname</InputLabel>
+      <br />
+      <Input
+        variant='outlined'
+        name='firstName'
+        placeholder={"First Name"}
         value={student?.lastName}
-        sx={{ my: 3, mx: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Person />
-            </InputAdornment>
-          )
-        }}
-        onChange={handleStudentFieldChange}
       />
       <br />
 
-      <TextField
-        label="Othernames"
-        variant="outlined"
-        fullWidth
-        placeholder={"Othernames"}
+      <br />
+      <InputLabel>Othernames</InputLabel>
+      <br />
+      <Input
+        variant='outlined'
+        name='firstName'
+        placeholder={"First Name"}
         value={student?.otherNames}
-        sx={{ my: 3, mx: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Person />
-            </InputAdornment>
-          )
-        }}
-        onChange={handleStudentFieldChange}
       />
       <br />
 
-      <TextField
-        label="Batch"
-        variant="outlined"
-        fullWidth
+      <br />
+
+      <br />
+      <InputLabel>Batch</InputLabel>
+      <br />
+      <Input
+        variant="filled"
+        size="small"
+        name='batch'
         placeholder={"Batch"}
         value={student?.batch}
-        sx={{ my: 3, mx: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Book />
-            </InputAdornment>
-          )
-        }}
         onChange={handleStudentFieldChange}
-      />
+      /><br />
       <br />
-
       <Button variant="contained" color='secondary' onClick={updateProduct}>Submit</Button>
       <br />
     </div>

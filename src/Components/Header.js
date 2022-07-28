@@ -40,12 +40,12 @@ function SimpleAppBar(props) {
       <AppBar color="default">
         <Toolbar className={classes.text}>
           <Typography className={classes.headline} variant="headline" color="inherit">
-            FCT College of Nursing and Midwifery{/* {new Date().getFullYear()} */}
+            <h2>FCT College of Nursing and Midwifery</h2>{/* {new Date().getFullYear()} */}
           </Typography>
           <div style={{ display: "flex" }}>
             <div style={{ margin: "22px 18px", display: "flex" }}>
               <Alarm />
-              <Typography color="inherit" >Time: {examTime} </Typography>
+              <Typography color="inherit" ><h1 style={{ color: 'red' }}>{examTime}</h1> </Typography>
             </div>
             <SubmitDialog submit={submit} />
           </div>

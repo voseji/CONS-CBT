@@ -4,30 +4,32 @@ a {
   text-decoration: none;
 }
 
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: "Nunito Sans";
 }
 
-.cbt_login_container{
+.cbt_login_container {
   min-height: 100vh;
   width: 100%;
   display: flex;
   background-color: #fafafa;
 }
-.cbt_login_container .cbt_login_banner{
+
+.cbt_login_container .cbt_login_banner {
   width: 50%;
   background-image: url('../../public/images/bg/login.jpg');
   background-size: cover;
 }
 
 
-.cbt_login_form_container{
+.cbt_login_form_container {
   width: 50%;
 }
-.cbt_login_form_container form{
+
+.cbt_login_form_container form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,29 +40,29 @@ a {
   width: 100%;
 }
 
-.cbt_login_form_container form *{
+.cbt_login_form_container form * {
   text-align: center;
 }
 
-.cbt_login_form_container form p{
+.cbt_login_form_container form p {
   margin: 1rem 0;
   color: #444;
 }
 
-.cbt_login_form_container form h1{
-  color: rgb(182, 15, 107); 
+.cbt_login_form_container form h1 {
+  color: rgb(182, 15, 107);
   font-weight: bolder;
   font-size: 2rem;
   text-transform: uppercase;
-} 
+}
 
-.instructions_container{
+.instructions_container {
   width: 100;
   min-height: 100vh;
   display: flex;
 }
 
-.instructions_content{
+.instructions_content {
   width: 50%;
   padding: 4rem;
   display: flex;
@@ -69,64 +71,67 @@ a {
   /* align-items: center; */
 }
 
-.instructions_content h1{
+.instructions_content h1 {
   font-size: 3rem;
-  color:rgb(182, 15, 107);
+  color: rgb(182, 15, 107);
   margin-bottom: 3rem;
 }
 
-.instructions_content ol, .instructions_content p{
+.instructions_content ol,
+.instructions_content p {
   margin-top: 1rem;
   color: #333;
 }
 
-.instructions_content ol li{
+.instructions_content ol li {
   margin-top: .5rem;
 }
 
-.instructions_banner{
+.instructions_banner {
   width: 50%;
   background-size: cover;
-  background-image: url('../../public/images/bg/login.jpg'); 
+  background-image: url('../../public/images/bg/login.jpg');
 }
 
-.test_bio_container{
+.test_bio_container {
   background-color: #f9f9f9;
   border-radius: 1rem;
   padding: 1rem;
 }
 
-.test_bio_container p{
+.test_bio_container p {
   color: #555555;
-  line-height: 1.5;;
+  line-height: 1.5;
+  ;
 }
-.test_bio_container h3{
+
+.test_bio_container h3 {
   color: #c51330;
   line-height: 2.5;
 }
 
-.dashboard_header_container{
+.dashboard_header_container {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
 
-.dashboard_header_brand{
+.dashboard_header_brand {
   width: 30%;
 }
 
-.dashboard_header_navigator{
+.dashboard_header_navigator {
   width: 70%;
   text-align: right;
 }
 
-.dashboard_header_navigator p{
+.dashboard_header_navigator p {
   display: inline-block;
   line-height: 40px;
 }
 
-.dashboard_header_initial{
+.dashboard_header_initial {
   display: inline-block;
   background-color: rgb(5, 22, 100);
   width: 40px;
@@ -137,16 +142,16 @@ a {
   margin-right: 1rem;
 }
 
-.dashboard_header_initial span{
+.dashboard_header_initial span {
   font-size: 1.5rem;
   line-height: 40px;
 }
 
-.dashboard_header_container .dashboard_header_brand > div{
+.dashboard_header_container .dashboard_header_brand>div {
   display: inline-block;
 }
 
-.dashboard_sidebar{
+.dashboard_sidebar {
   width: 200px;
   background-color: #2196f3;
   min-height: 90vh;
@@ -156,18 +161,18 @@ a {
   position: absolute;
 }
 
-.dashboard_sidebar_top{
+.dashboard_sidebar_top {
   padding: 1rem;
 
 }
 
-.dashboard_sidebar_top h3{
-  color:#333;
+.dashboard_sidebar_top h3 {
+  color: #333;
   line-height: 2;
   text-align: center;
 }
 
-.dashboard_sidebar_top img{
+.dashboard_sidebar_top img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -176,41 +181,42 @@ a {
   border: 1px solid white;
 }
 
-.dashboard_sidebar_links svg{
+.dashboard_sidebar_links svg {
   height: 15px;
 }
-.dashboard_sidebar_links ul{
+
+.dashboard_sidebar_links ul {
   display: block;
 }
 
-.dashboard_sidebar_links ul li{
+.dashboard_sidebar_links ul li {
   padding: .5rem;
   list-style: none;
   margin: .5rem 0;
 }
 
-.dashboard_sidebar_links ul li a{
+.dashboard_sidebar_links ul li a {
   display: block;
   width: 100%;
   height: 100%;
   color: #fff;
 }
 
-.dashboard_sidebar_links ul li.active{
+.dashboard_sidebar_links ul li.active {
   padding: .5rem;
   border-radius: 0px 20px 20px 0px;
   background-color: #fff;
-  border-color:#051664;
+  border-color: #051664;
   /* border: 1px solid #051664; */
   border-left: 0;
   width: 90%;
 }
 
 .dashboard_sidebar_links ul li.active a {
-  color:#2196f3;
+  color: #2196f3;
 }
 
-.dashboard_sidebar_logout{
+.dashboard_sidebar_logout {
   position: absolute;
   display: block;
   bottom: 1rem;
@@ -218,7 +224,7 @@ a {
   width: 100%;
 }
 
-.dashboard_sidebar_logout button{
+.dashboard_sidebar_logout button {
   margin: 0 auto;
   width: 80%;
   background-color: #c51330;
@@ -232,16 +238,16 @@ a {
   cursor: pointer;
 }
 
-.dashboard_content{
+.dashboard_content {
   margin-top: 3rem;
-  margin-left: 250px ;
+  margin-left: 250px;
   min-height: 70vh;
   overflow-y: scroll;
   max-width: 75vw;
 }
 
-.dashboard_title{
-  color:rgb(5, 22, 100);
+.dashboard_title {
+  color: rgb(5, 22, 100);
   display: block;
   width: 100%;
   background-color: #fff;
@@ -250,7 +256,7 @@ a {
   margin: 1rem 0;
 }
 
-.test_nav_container{
+.test_nav_container {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -260,7 +266,7 @@ a {
 
 }
 
-.test_nav_container ul{
+.test_nav_container ul {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -268,7 +274,7 @@ a {
   justify-content: center;
 }
 
-.test_nav_container ul li{
+.test_nav_container ul li {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -279,13 +285,18 @@ a {
   line-height: 30px;
 }
 
-.test_nav_container ul li.active{
+.test_nav_container ul li.active {
   background-color: #c51330;
   color: #fff;
-  border-color: #f9f9f9;;
+  border-color: #f9f9f9;
+  ;
 }
 
-th button{
+th button {
   padding: 0 !important;
   text-align: left !important;
+}
+
+input {
+  variant: contained;
 }

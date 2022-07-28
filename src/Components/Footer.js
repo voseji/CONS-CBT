@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ReactTooltip from 'react-tooltip'
 
 const styles = {
-  root: { 
+  root: {
     clear: 'both',
     display: 'flex',
     flexDirection: 'row',
@@ -22,10 +22,10 @@ function Footer(props) {
   return (
     <div className={classes.root}>
       <Typography gutterBottom>
-        Copyright &copy;{new Date().getFullYear()} - College of Nursing Sciences <br/>
-           {/* Designed and developed by <span className={classes.span} data-tip="Contact Phone: +2348060230771, Email: chybesta@gmail.com"> Sirgeb </span> */}
+        Copyright &copy;{new Date().getFullYear()} -  FCT College of Nursing Sciences <br />
+        {/* Designed and developed by <span className={classes.span} data-tip="Contact Phone: +2348060230771, Email: chybesta@gmail.com"> Sirgeb </span> */}
       </Typography>
-      <ReactTooltip place="right" type="dark" effect="float"/>
+      <ReactTooltip place="right" type="dark" effect="float" />
     </div>
   );
 }
