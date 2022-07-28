@@ -131,9 +131,9 @@ class PreTest extends React.Component {
         this.setState({ activeSubject: subjects[0], student: res.data });
         localStorage.setItem(`sub${subject.id}`, 0);
       });
-      
+
       this.setState({ subjects });
-      this.setTime(1000);
+      this.setTime(180);
       localStorage.setItem('questionNo', JSON.stringify([]));
       localStorage.setItem('candidateScore', String(0));
       return;
@@ -422,7 +422,7 @@ class PreTest extends React.Component {
                 activeSubject && activeSubject.questions ?
                   activeSubject.questions.map((question, index) => {
                     const checked = question.answers.find(answer => {
-                      return answer.isChecked ;
+                      return answer.isChecked;
                     });
                     return <li
                       onClick={() => this.setState({ [`sub${this.state.activeSubject.id}`]: index })}

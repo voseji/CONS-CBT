@@ -5,26 +5,26 @@ export const demoQuestions = [
     questions: [
       {
         id: 1,
-        question: "<strong>Who is the footballer of the year 2013? </strong>",
+        question: "<strong>What is the capital of Sudan? </strong>",
         answers: [
           {
             id: 1,
-            answer: "Ronaldo Delima",
+            answer: "Khartoum",
             is_correct: false,
           },
           {
             id: 2,
-            answer: "McAnthony Jonah",
+            answer: "New Delhi",
             is_correct: false,
           },
           {
             id: 3,
-            answer: "Del Piero",
+            answer: "Abu Dhabi",
             is_correct: true,
           },
           {
             id: 4,
-            answer: "Diane Kante",
+            answer: "Doula",
             is_correct: false,
           },
         ]

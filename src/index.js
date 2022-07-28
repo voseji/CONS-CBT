@@ -20,12 +20,14 @@ import DashboardHome from './pages/Dashboard/DashboardHome';
 import CalculatorPage from './pages/Calculator';
 import { Candidates } from './pages/Dashboard/Candidates';
 import UploadQuestions from './pages/Dashboard/UploadQuestions';
+import { Subjects } from './pages/Dashboard/Subjects';
 import { Questions } from './pages/Dashboard/Questions';
 import { Results } from './pages/Dashboard/Results';
 import { EditCandidate } from './pages/Dashboard/EditCandidate';
 import { Batches } from './pages/Dashboard/Batches';
 import { NewBatch } from './pages/Dashboard/NewBatch';
 import PreTest from './Components/routes/PreTest';
+import { EditQuestion } from './pages/Dashboard/EditQuestion';
 
 const theme = createMuiTheme({
   palette: {
@@ -86,12 +88,14 @@ class Index extends Component {
               <Route path="/dashboard" component={DashboardHome} />
               <Route path="/calculator" component={CalculatorPage} />
               <Route path="/admin" component={DashboardHome} />
-              <Route path="/questions" component={Questions} />
+              <Route path="/subjects" component={Subjects} />
               <Route path="/upload_questions" component={UploadQuestions} />
               <Route path="/results" component={Results} />
               <Route path="/edit_candidate" component={EditCandidate} />
               <Route path="/batches" component={Batches} />
               <Route path="/create_batch" component={NewBatch} />
+              <Route path="/questions" component={Questions} />
+              <Route path="/edit_question" component={EditQuestion} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />
