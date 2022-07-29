@@ -13,7 +13,8 @@ import SubmitResponse from './Components/routes/SubmitResponse';
 import Footer from './Components/Footer';
 import notFoundPage from './Components/routes/pageNotFound';
 import SignIn from './Components/welcome/SignIn';
-// import Candidates from './Components/Candidates';
+import Login from './Components/Login/Login';
+
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import DashboardHome from './pages/Dashboard/DashboardHome';
@@ -96,6 +97,7 @@ class Index extends Component {
               <Route path="/create_batch" component={NewBatch} />
               <Route path="/questions" component={Questions} />
               <Route path="/edit_question" component={EditQuestion} />
+              <Route path="/admin_login" component={Login} />
               <Route component={notFoundPage} />
             </Switch>
             <Footer />

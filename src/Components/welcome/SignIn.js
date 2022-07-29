@@ -25,7 +25,7 @@ const styles = theme => ({
 
 class Register extends React.Component {
 
- 
+
   render() {
     const { classes, authenticated } = this.props;
     // const req = async () => {
@@ -33,16 +33,16 @@ class Register extends React.Component {
     //   console.log("Hi"+response)
     // }
     const req = fetch('http://localhost:8000/api/students')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error));
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
 
     return (
       <div>
         <Paper className={classes.root} elevation={0}>
           <Typography variant="headline" component="h3">
             ENTER APPLICATION NUMBER
-              </Typography>
+          </Typography>
           <Divider className={classes.divider} />
           <SignInForm
             // candidates={Candidates}

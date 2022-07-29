@@ -39,6 +39,7 @@ export const EditCandidate = ({ match, location }) => {
   // const { registrationNumber } = match.params;
   // const [formNumber, setFormNumber] = useState("")
   const [batch, setBatch] = useState("")
+  const [firstName, setFirstname] = useState("")
   const [student, setStudent] = useState(null)
   // const [settings, setSettings] = useState()
 
@@ -58,10 +59,9 @@ export const EditCandidate = ({ match, location }) => {
     e.preventDefault();
 
     const formData = new FormData()
-    console.log(student)
     formData.append('_method', 'PUT');
     formData.append('batch', student?.batch)
-
+    formData.append('firstName', student?.firstName)
 
 
     await BackendAPI.post(`/students/${rgNumber}`, formData).then(({ data }) => {
@@ -88,17 +88,18 @@ export const EditCandidate = ({ match, location }) => {
       [event.target.name]: event.target.value
     }))
   }
+
   return <DashboardLayout>
     <div style={{ width: '50%' }}>
       <DashboardTitle title="Edit Candidate" />
-      <TextField
+      {/* <TextField
         label="First name"
         variant="outlined"
         fullWidth
+        name='firstName'
         placeholder={"First Name"}
         value={student?.firstName}
         sx={{ my: 3, mx: 2 }}
-        name='firstName'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -115,7 +116,6 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"Last Name"}
         value={student?.lastName}
         sx={{ my: 3, mx: 2 }}
-        name='lastName'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -134,7 +134,6 @@ export const EditCandidate = ({ match, location }) => {
         placeholder={"Othernames"}
         value={student?.otherNames}
         sx={{ my: 3, mx: 2 }}
-        name='otherNames'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -144,16 +143,16 @@ export const EditCandidate = ({ match, location }) => {
         }}
         onChange={handleStudentFieldChange}
       />
-      <br />
+      <br /> */}
 
       <TextField
         label="Batch"
         variant="outlined"
         fullWidth
+        name='batch'
         placeholder={"Batch"}
         value={student?.batch}
         sx={{ my: 3, mx: 2 }}
-        name='batch'
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

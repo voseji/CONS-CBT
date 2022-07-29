@@ -5,7 +5,7 @@ export const demoQuestions = [
     questions: [
       {
         id: 1,
-        question: "<strong>What is the capital of Sudan? </strong>",
+        question: "<strong>What 4<sup>3</sup> is the capital of Sudan? </strong>",
         answers: [
           {
             id: 1,

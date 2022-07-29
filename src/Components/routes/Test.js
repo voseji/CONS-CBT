@@ -16,10 +16,7 @@ import Header from '../Header';
 import { Redirect } from 'react-router-dom';
 import { BackendAPI } from '../../lib/api';
 import { Tab, Tabs } from '@material-ui/core';
-// import { ReactCalculator } from "simple-react-calculator";
-// import Calculator from 'standart-calculator-react';
-// import { Calculator } from 'react-mac-calculator'
-// import Calculator from 'react-calculator';
+
 import Calculator from "awesome-react-calculator";
 import CalculatorPage from '../../pages/Calculator';
 // import Button from '@material-ui/core/Button';
@@ -52,11 +49,7 @@ const styles = theme => ({
 const navStyles = {
 
 }
-// const components = {
-//   "Calculator": <Calculator />
-// }
-// const [showResults, setShowResults] = React.useState(false)
-// const onClick = () => setShowResults(true)
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -330,7 +323,7 @@ class Test extends React.Component {
                 </Typography>
                 <hr />
                 <Paper square elevation={0} className={classes.header}>
-                  <div dangerouslySetInnerHTML={{__html: `${this.state[`sub${activeStepId}`] + 1}. ${activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}`}} />
+                  <div dangerouslySetInnerHTML={{ __html: `${this.state[`sub${activeStepId}`] + 1}. ${activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}` }} />
                   {/* <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography> */}
                 </Paper>
 
@@ -387,7 +380,7 @@ class Test extends React.Component {
 
               </div>
             </div>
-
+            {/* 
             <MobileStepper
               steps={maxSteps}
               position="static"
@@ -406,7 +399,26 @@ class Test extends React.Component {
                   Back
                 </Button>
               }
-            />
+            /> */}
+            <div className='test_nav_container'>
+              <ul>
+                {
+                  activeSubject && activeSubject.questions ?
+                    activeSubject.questions.map((question, index) => {
+                      const checked = question.answers.find(answer => {
+                        return answer.hasOwnProperty('isChecked') ? answer.isChecked : answer.answers.length;
+                      });
+                      return <li
+                        onClick={() => this.setState({ [`sub${this.state.activeSubject.id}`]: index })}
+                        className={
+                          checked ? "active" : ''
+                        }>{index + 1}</li>
+
+                    })
+                    : <div></div>
+                }
+              </ul>
+            </div>
           </div>
           {/* : <Redirect to="/not-found" /> */}
           <div sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -425,7 +437,7 @@ class Test extends React.Component {
                   <Tab label="Item Three"  {...a11yProps(2)}  onClick={() => this.setState({activeTab: 2})} /> */}
             </Tabs>
           </div>
-          <div className='test_nav_container'>
+          {/* <div className='test_nav_container'>
             <ul>
               {
                 activeSubject && activeSubject.questions ?
@@ -443,7 +455,7 @@ class Test extends React.Component {
                   : <div></div>
               }
             </ul>
-          </div>
+          </div> */}
 
         </div>
       </>

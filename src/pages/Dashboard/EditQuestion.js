@@ -1,6 +1,6 @@
 import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 // import React from 'react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Component, PropTypes } from 'react';
 import DashboardTitle from '../../Components/DashboardTitle/DashboardTitle';
 import DashboardLayout from '../../Components/layout/DashboardLayout';
 // import * as XLSX from 'xlsx';
@@ -15,28 +15,20 @@ import { Person } from '@mui/icons-material';
 import { Book } from '@mui/icons-material';
 import { QuestionAnswer } from '@mui/icons-material';
 // import { useParams, useSearchParams } from 'react-router-dom';
-
+// import RichTextEditor from 'react-rte';
 
 
 // export default class Candidates extends React.Component{
 
 export const EditQuestion = ({ match, location }) => {
+
+
   const params = new URLSearchParams(location.search);
   const qid = params.get('qid');
   // const { registrationNumber } = useParams();
   const [registration, setRegistration] = useState(null)
 
-  // useEffect(()=>{
-  //   fetchRegistration(registrationNumber)
-  // },[])
 
-  // const [searchParams, setSearchParams] =useSearchParams()
-  // const fetchRegistration = async () => {
-  //   await BackendAPI.get(`/student/${searchParams.get('registrationNumber')}`).then(({data})=>{
-  //     setRegistration(data)
-  //     console.log(data);
-  //   })
-  // }
 
   const [subject, setSubject] = useState([])
   // const [settings, setSettings] = useState()
@@ -98,9 +90,12 @@ export const EditQuestion = ({ match, location }) => {
       })
     }))
   }
+
+
   return <DashboardLayout>
     <div style={{ width: '50%' }}>
       <DashboardTitle title="Edit Candidate" />
+
       <TextField
         label="Question"
         variant="outlined"

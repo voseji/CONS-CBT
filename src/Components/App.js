@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -15,7 +15,7 @@ import './App.css';
 import Instructions from '../pages/SignIn/Instructions/Instructions';
 import { BackendAPI } from '../lib/api';
 import Swal from 'sweetalert2';
-
+import Login from '../Components/Login/Login';
 const styles = theme => ({
   root: {
     width: '100%'
@@ -43,7 +43,7 @@ const styles = theme => ({
   instruct: {
     marginBottom: 30
   }
-}); 
+});
 
 function getSteps() {
   return ['Welcome', 'Sign-in', 'Information'];
@@ -59,8 +59,10 @@ function getStepContent(stepIndex) {
       return '';
   }
 }
+// const [token, setToken] = useState();
 
 class App extends React.Component {
+
   state = {
     activeStep: 0,
     hasCandidate: false,
@@ -73,9 +75,9 @@ class App extends React.Component {
     localStorage.setItem('programType', '');
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     const studentId = localStorage.getItem('studentId');
-    if(studentId){
+    if (studentId) {
       const res = await BackendAPI.get(`/students/${studentId}`);
       const student = res.data;
 
@@ -90,14 +92,14 @@ class App extends React.Component {
       if (student?.time_left < 1 || student?.exam_status === "FINISHED") {
 
         Swal.fire({
-        icon: 'error',
-        title: 'Warning',
-        text: 'You have exhaused your time or you have completed your exam',
+          icon: 'error',
+          title: 'Warning',
+          text: 'You have exhaused your time or you have completed your exam',
         });
         return localStorage.removeItem('studentId')
       }
 
-      return this.setState({activeStep: 1, candidate: res.data});
+      return this.setState({ activeStep: 1, candidate: res.data });
     }
   }
 
@@ -147,7 +149,7 @@ class App extends React.Component {
     const { activeStep } = this.state;
     // return <SignIn />
     // return <Instructions />
-    
+
     return (
 
       <div className={classes.root}>
@@ -164,32 +166,32 @@ class App extends React.Component {
         <div className={classes.subContainer}>
           {this.state.activeStep === 0 ? (
             <SignIn
-              onStageChange={() => this.setState({activeStep: 1})}
+              onStageChange={() => this.setState({ activeStep: 1 })}
             />
-          ) : this.state.activeStep === 1 ? 
-          <Instructions candidate={this.state.candidate} onStageChange={() => this.setState({hasCandidate: true})} />
-              
-              : (
-                <div className={classes.instruct}>
-                  <Instruction />
-                  <center>
-                      {/* <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography> */}
+          ) : this.state.activeStep === 1 ?
+            <Instructions candidate={this.state.candidate} onStageChange={() => this.setState({ hasCandidate: true })} />
 
-                    <div>
-                      <Button
-                        disabled={activeStep === 0}
-                        onClick={this.handleBack}
-                        className={classes.backButton}
-                      >
-                        Back
+            : (
+              <div className={classes.instruct}>
+                <Instruction />
+                <center>
+                  {/* <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography> */}
+
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={this.handleBack}
+                      className={classes.backButton}
+                    >
+                      Back
                     </Button>
-                      <Button onClick={() => this.setState({ hasCandidate: true })} variant="contained" color="primary">
-                        Start Test
-                        </Button>
-                    </div>
-                  </center>
-                </div>
-              )
+                    <Button onClick={() => this.setState({ hasCandidate: true })} variant="contained" color="primary">
+                      Start Test
+                    </Button>
+                  </div>
+                </center>
+              </div>
+            )
           }
         </div>
       </div>
