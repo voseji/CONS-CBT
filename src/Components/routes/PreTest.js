@@ -309,7 +309,7 @@ class PreTest extends React.Component {
             {this.state.timeOut === true ? <Redirect to="/" /> : null}
 
             <Header examTime={this.remainingTime()} submit={this.handleSubmit} />
-            <div className='blinker'>These are demo questions and do not add up to your scores. Submit to start main exam</div>
+            <div className='blinker'><h2>These are demo questions and do not add up to your scores. Submit to start main exam</h2></div>
             &nbsp;<Button variant="contained" color='secondary' className={classes.btn} onClick={() => {
               this.setState({ shouldShow: !this.state.shouldShow })
             }}  > Show Calculator </Button>
@@ -321,7 +321,7 @@ class PreTest extends React.Component {
                 </Typography>
                 <hr />
                 <Paper square elevation={0} className={classes.header}>
-                  <div dangerouslySetInnerHTML={{__html: `${this.state[`sub${activeStepId}`] + 1}. ${activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}`}} />
+                  <div dangerouslySetInnerHTML={{ __html: `${this.state[`sub${activeStepId}`] + 1}. ${activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}` }} />
                   {/* <Typography>{this.state[`sub${activeStepId}`] + 1}. {activeSubject ? activeSubject.questions[this.state[`sub${activeStepId}`]].question : ''}</Typography> */}
                 </Paper>
 

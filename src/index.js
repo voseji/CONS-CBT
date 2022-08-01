@@ -127,7 +127,7 @@ class Index extends Component {
               <Route path="/admin_login" component={AdminLogin} />
               <Route component={notFoundPage} />
             </Switch>
-            <Footer />
+            {/* <Footer /> */}
           </div>
 
         </MuiThemeProvider>

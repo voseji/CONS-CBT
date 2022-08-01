@@ -410,7 +410,7 @@ class Test extends React.Component {
 
               steps={maxSteps}
               position="static"
-              variant="dots"
+              // variant="dots"
               activeStep={activeStep}
               className={classes.mobileStepper}
               nextButton={
@@ -442,7 +442,7 @@ class Test extends React.Component {
               {/* <Tab label="Item One" {...a11yProps(0)}  onClick={() => this.setState({activeTab: 0})} />
                   <Tab label="Item Two"  {...a11yProps(1)} onClick={() => this.setState({activeTab: 1})} />
                   <Tab label="Item Three"  {...a11yProps(2)}  onClick={() => this.setState({activeTab: 2})} /> */}
-            </Tabs>
+            </Tabs><br />
           </div>
           {/* <div className='test_nav_container'>
             <ul>

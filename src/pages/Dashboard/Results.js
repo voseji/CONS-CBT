@@ -11,7 +11,42 @@ import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
 import Select from 'react-select';
 import { getUser, removeUserSession } from '../../admin/Common';
+import ResultService from './service';
+import { BACKEND_HOST } from '../../Components/welcome/api.utility';
 
+const sampleData = [
+  {
+    id: 1,
+    name: "Damilola Akinde",
+    state: "Enugu",
+    batch: "1A"
+
+  },
+  {
+    id: 2,
+    name: "Sam wise",
+    state: "Enugu",
+    batch: "1B"
+
+  },
+  {
+    id: 3,
+    name: "Victor Oseji",
+    state: "Delta",
+    batch: "1A"
+
+  },
+  {
+    id: 4,
+    name: "Chinedu Ukpe",
+    state: "Plateau",
+    batch: "1C"
+
+  },
+
+]
+
+// const [isLoading, setIsLoading] = useState(false);
 const columns = [
 
   { label: "SN", name: "sn" },
@@ -20,18 +55,19 @@ const columns = [
   { label: "Form Number", name: "formNumber" },
   { label: "Phone Number", name: "phoneNumber1" },
   { label: "State Of Origin", name: "stateOfOrigin" },
-  { label: "Score", name: "batch" },
+  { label: "Batch", name: "batch" },
+  { label: "Score", name: "score" },
 ];
 
-const batch = [
+// const batch = [
 
-  { label: "1A", name: "1A" },
-  { label: "1B", name: "1B" },
-  { label: "1C", name: "1C" },
-  { label: "1D", name: "1D" },
-  { label: "2A", name: "2A" },
-  { label: "2B", name: "2B" },
-];
+//   { label: "1A", name: "1A" },
+//   { label: "1B", name: "1B" },
+//   { label: "1C", name: "1C" },
+//   { label: "1D", name: "1D" },
+//   { label: "2A", name: "2A" },
+//   { label: "2B", name: "2B" },
+// ];
 
 const sor = [
   { value: 'ABIA', label: 'ABIA' },
@@ -82,20 +118,69 @@ export const Results = () => {
     props.history.push('/admin_login');
   }
 
-  // render(){
-  const [selectedOption, setSelectedOption] = useState(null);
+  // const [batch, setBatch] = useState('');
 
-  const [allregdetails, setAllRegDetails] = useState([])
+  // render(){
+  // const [selectedOption, setSelectedOption] = useState(null);
+
+  const [batches, setBatches] = useState([])
   useEffect(() => {
-    fetchAllRegDetails()
+    fetchBatches()
   }, [])
-  const fetchAllRegDetails = async () => {
-    await BackendAPI.get(`/student/result2`).then(({ data }) => {
-      // setFacilityType1(data?.data)
-      setAllRegDetails(data)
-      console.log(data);
+
+  const fetchBatches = async () => {
+    await BackendAPI.get(`/batches`).then(({ data }) => {
+      setBatches(data)
+      console.log(data)
     })
   }
+
+  // const [state, setState] = useState(initial_state)
+  // const setStateValue = (key, value) => {
+  //   return setState(prevState => ({
+  //     ...prevState,
+  //     [key]: value,
+  //   }))
+  // }
+
+  const [students, setStudents] = useState([])
+  const [repo, setStudentsRepository] = useState([])
+
+  useEffect(() => {
+    loadData()
+  }, [])
+  const loadData = async () => {
+
+    /**
+    *	Call an API END POint to get all students or record
+    */
+
+
+    const studentAPIResponse = await BackendAPI.get(`/student/result2`); // Assume Sample data above
+
+    /**
+    *	This will display all the sudents at first. 
+    */
+    setStudents(studentAPIResponse.data)
+    console.log(studentAPIResponse)
+    // console.log('Hi')
+
+    /**
+    *	This will simply also hold a duplicate of the records from the server for filtering. 
+    */
+    setStudentsRepository(studentAPIResponse.data);
+  }
+  const [selectedBatch] = useState(null);
+  const handleSelectBatchState = e => {
+    const selectedBatch = e.value;
+
+    setStudents(repo.filter(
+      batch => batch.state === selectedBatch
+    ))
+  }
+
+
+
 
   return <DashboardLayout>
 
@@ -107,26 +192,44 @@ export const Results = () => {
         <tr>
           <td>
             <Select
-              styles={{ position: 'albsolute', zIndex: '5000' }}
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              styles={{ position: 'fixed !important', zIndex: '1000 !important' }}
+              // defaultValue={selectedOption}
+              // onChange={setSelectedOption}
               options={sor}
               placeholder='Filter by State'
             />
           </td>
-          <td>       <Select
+          <td>
+            {/* <Select
             styles={{ position: 'albsolute', zIndex: '-5000' }}
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
+            // defaultValue={selectedOption}
+            onChange={handleSelectBatchState}
             options={batch}
+            value={selectedBatch}
+            // onChange={e => setBatch(e.target.value)}
             placeholder='Filter by Batch'
-          /></td>
+          /> */}
+          </td>
         </tr>
-        <br /></table>
+        <br />
+        {/* <Input type='text' value={batch} onChange={e => setBatch(e.target.value)} />
+        <Button
+          variant='contained'
+          // disabled={isLoading}
+          onClick={fetchSales}
+          color='primary' >Search</Button> */}
+        <Select
+          options={batches.map(product => ({
+            label: `${product.batch} `,
+            value: product.selectedBatch,
+          }))}
+          onChange={handleSelectBatchState}
+        />
+      </table>
 
       <MUIDataTable
         columns={columns}
-        data={allregdetails.map((registration, index) => [
+        data={students.map((registration, index) => [
           index + 1,
           // registration.createdAt,
           registration.registrationNumber,
@@ -134,6 +237,7 @@ export const Results = () => {
           registration.formNumber,
           registration.phoneNumber1,
           registration.stateOfOrigin,
+          registration.batch,
           registration.total_score,
           // registration.registrationNumber,
 
