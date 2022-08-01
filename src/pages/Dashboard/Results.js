@@ -175,28 +175,34 @@ export const Results = () => {
     const selectedBatch = e.value;
 
     setStudents(repo.filter(
-      batch => batch.state === selectedBatch
+      batch => batch.batch?.toUpperCase() === selectedBatch.toUpperCase()
     ))
   }
 
+  const handleCandidateStateChange = e => {
+    const selectedState = e.value;
 
-
+    setStudents(repo.filter(
+      candidate => candidate.state?.toUpperCase() === selectedState.toUpperCase()
+    ))
+  }
 
   return <DashboardLayout>
 
     <div>
-      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
+      <h2>Hi {user?.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
 
       <DashboardTitle title="Candidate Results" />
       <table style={{ width: "50%" }} border={1}>
         <tr>
           <td>
             <Select
-              styles={{ position: 'fixed !important', zIndex: '1000 !important' }}
+              styles={{ position: 'fixed !important', zIndex: '9000 !important' }}
               // defaultValue={selectedOption}
               // onChange={setSelectedOption}
               options={sor}
               placeholder='Filter by State'
+              onChange={handleCandidateStateChange}
             />
           </td>
           <td>
@@ -219,9 +225,9 @@ export const Results = () => {
           onClick={fetchSales}
           color='primary' >Search</Button> */}
         <Select
-          options={batches.map(product => ({
-            label: `${product.batch} `,
-            value: product.selectedBatch,
+          options={batches.map(batch => ({
+            label: `${batch.batch} `,
+            value: batch.batch,
           }))}
           onChange={handleSelectBatchState}
         />
