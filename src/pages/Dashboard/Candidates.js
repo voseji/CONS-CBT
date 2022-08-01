@@ -10,6 +10,7 @@ import MUIDataTable from "mui-datatables";
 import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
 import { remainingTime } from '../../lib/time.lib';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 const columns = [
 
@@ -42,9 +43,13 @@ const columns = [
 
 // export default class Candidates extends React.Component{
 
-export const Candidates = () => {
+export const Candidates = (props) => {
   // render(){
-
+  const user = getUser();
+  const handleLogout = () => {
+    removeUserSession();
+    props.history.push('/admin_login');
+  }
   const [allregdetails, setAllRegDetails] = useState([])
   useEffect(() => {
     fetchAllRegDetails()
@@ -59,6 +64,7 @@ export const Candidates = () => {
 
   return <DashboardLayout>
     <div>
+      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
       <DashboardTitle title="Candidates" />
       <MUIDataTable
         columns={columns}

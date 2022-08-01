@@ -14,12 +14,19 @@ import Swal from 'sweetalert2';
 import { Person } from '@mui/icons-material';
 import { Book } from '@mui/icons-material';
 // import { useParams, useSearchParams } from 'react-router-dom';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 
 
 // export default class Candidates extends React.Component{
 
 export const EditCandidate = ({ match, location }) => {
+  const user = getUser();
+  const handleLogout = () => {
+    removeUserSession();
+    props.history.push('/admin_login');
+  }
+
   const params = new URLSearchParams(location.search);
   const rgNumber = params.get('registrationNumber');
   // const { registrationNumber } = useParams();
@@ -91,6 +98,7 @@ export const EditCandidate = ({ match, location }) => {
 
   return <DashboardLayout>
     <div style={{ width: '50%' }}>
+      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
       <DashboardTitle title="Edit Candidate" />
       {/* <TextField
         label="First name"

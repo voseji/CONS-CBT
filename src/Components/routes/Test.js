@@ -16,7 +16,10 @@ import Header from '../Header';
 import { Redirect } from 'react-router-dom';
 import { BackendAPI } from '../../lib/api';
 import { Tab, Tabs } from '@material-ui/core';
-
+// import { ReactCalculator } from "simple-react-calculator";
+// import Calculator from 'standart-calculator-react';
+// import { Calculator } from 'react-mac-calculator'
+// import Calculator from 'react-calculator';
 import Calculator from "awesome-react-calculator";
 import CalculatorPage from '../../pages/Calculator';
 // import Button from '@material-ui/core/Button';
@@ -49,7 +52,11 @@ const styles = theme => ({
 const navStyles = {
 
 }
-
+// const components = {
+//   "Calculator": <Calculator />
+// }
+// const [showResults, setShowResults] = React.useState(false)
+// const onClick = () => setShowResults(true)
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -380,26 +387,6 @@ class Test extends React.Component {
 
               </div>
             </div>
-            {/* 
-            <MobileStepper
-              steps={maxSteps}
-              position="static"
-              variant="dots"
-              activeStep={activeStep}
-              className={classes.mobileStepper}
-              nextButton={
-                <Button size="small" onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
-                  Next
-                  {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                </Button>
-              }
-              backButton={
-                <Button size="small" onClick={this.handleBack} disabled={activeStep === 0}>
-                  {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                  Back
-                </Button>
-              }
-            /> */}
             <div className='test_nav_container'>
               <ul>
                 {
@@ -419,6 +406,26 @@ class Test extends React.Component {
                 }
               </ul>
             </div>
+            <MobileStepper
+
+              steps={maxSteps}
+              position="static"
+              variant="dots"
+              activeStep={activeStep}
+              className={classes.mobileStepper}
+              nextButton={
+                <Button size="small" onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
+                  Next
+                  {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                </Button>
+              }
+              backButton={
+                <Button size="small" onClick={this.handleBack} disabled={activeStep === 0}>
+                  {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                  Back
+                </Button>
+              }
+            />
           </div>
           {/* : <Redirect to="/not-found" /> */}
           <div sx={{ borderBottom: 1, borderColor: 'divider' }}>

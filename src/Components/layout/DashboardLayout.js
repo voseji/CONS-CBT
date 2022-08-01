@@ -1,11 +1,14 @@
 import { AppBar, IconButton, Menu, Toolbar, Typography } from '@material-ui/core';
 import { Adjust, CameraFront, BookOutlined, Dashboard, MenuOutlined, Power, QuestionAnswerOutlined } from '@material-ui/icons';
 import React from 'react';
+import { getUser, removeUserSession } from '../../admin/Common';
+
 
 export default class DashboardLayout extends React.Component {
 
     constructor(props) {
         super(props);
+
     }
     render() {
         return (
@@ -21,25 +24,25 @@ export default class DashboardLayout extends React.Component {
                                     FCT College of Nursing Sciences
                                 </Typography>
                             </div>
-                            <div className="dashboard_header_navigator">
+                            {/* <div className="dashboard_header_navigator">
                                 <div className="dashboard_header_initial">
                                     <span>S</span>
                                     <span>A</span>
                                 </div>
                                 <p>System Admin</p>
-                            </div>
+                            </div> */}
                         </div>
                     </Toolbar>
                 </AppBar>
                 <div className='dashboard_sidebar'>
                     <div className="dashboard_sidebar_top">
                         <img src='/images/avatar/passport.png' />
-                        <h3>Username</h3>
+                        {/* <h3>{user.name}</h3> */}
                         <hr style={{ color: '#fff' }} />
                     </div>
                     <div className="dashboard_sidebar_links">
                         <ul>
-                            <li className='active'><a href="/admin"> <Dashboard /> <span>Dashboard</span> </a></li>
+                            <li className='active'><a href="/dashboard"> <Dashboard /> <span>Dashboard</span> </a></li>
                             <li><a href="/candidates"> <CameraFront /> <span>Candidates</span> </a></li>
                             <li><a href="/subjects"> <QuestionAnswerOutlined /> <span>Subjects (Questions)</span> </a></li>
                             <li><a href="/batches"> <BookOutlined /> <span>Batches</span> </a></li>

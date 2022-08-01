@@ -9,45 +9,52 @@ import MUIDataTable from "mui-datatables";
 // import moment from 'moment'
 import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 const columns = [
 
-    { label: "eID", name: "eID" },
-    { label: "KIV", name: "KIV" },
-    { label: "Rgistration Number", name: "registrationNumber" },
-    { label: "Facility Name", name: "facilityName" },
-    { label: "Facility Type", name: "facilityType" },
-//     { label: "Action", name: "", options: {customBodyRender: (eID) => {
-//       return <Icon color="primary"
-//       component={Link}
-//       to={{pathname: `/dps/registration/print?eID=${eID}`, data:allregdetails}}
-//       >print</Icon>
-//  }} },
- 
-
-  ];
+  { label: "eID", name: "eID" },
+  { label: "KIV", name: "KIV" },
+  { label: "Rgistration Number", name: "registrationNumber" },
+  { label: "Facility Name", name: "facilityName" },
+  { label: "Facility Type", name: "facilityType" },
+  //     { label: "Action", name: "", options: {customBodyRender: (eID) => {
+  //       return <Icon color="primary"
+  //       component={Link}
+  //       to={{pathname: `/dps/registration/print?eID=${eID}`, data:allregdetails}}
+  //       >print</Icon>
+  //  }} },
 
 
-  // const [allregdetails, setAllRegDetails] = useState([])
-  // useEffect(()=>{
-  //   fetchAllRegDetails()
-  //   },[])
-  // const fetchAllRegDetails = async () => {
-  //   await BackendAPI.get(`/students`).then(({data})=>{
-  //     // setFacilityType1(data?.data)
-  //     setAllRegDetails(data)
-  //     console.log(data);
-  //   })
-  //   }
-export default class Candidates extends React.Component{
+];
 
 
-    render(){
+// const [allregdetails, setAllRegDetails] = useState([])
+// useEffect(()=>{
+//   fetchAllRegDetails()
+//   },[])
+// const fetchAllRegDetails = async () => {
+//   await BackendAPI.get(`/students`).then(({data})=>{
+//     // setFacilityType1(data?.data)
+//     setAllRegDetails(data)
+//     console.log(data);
+//   })
+//   }
+// export default class Candidates extends React.Component {
+export const Dashboard = (props) => {
+  const user = getUser();
+  const handleLogout = () => {
+    removeUserSession();
+    props.history.push('/admin_login');
+  }
 
-        return <DashboardLayout>
-            <div>
-                <DashboardTitle title="Dashboard" />
-                {/* <MUIDataTable 
+  // render() {
+
+  return <DashboardLayout>
+    <div>
+      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
+      <DashboardTitle title="Dashboard" />
+      {/* <MUIDataTable 
               columns={columns}
               data={allregdetails.map((registration, index) => [
                 // index +1, 
@@ -61,7 +68,6 @@ export default class Candidates extends React.Component{
            
               ])}
              /> */}
-            </div>
-        </DashboardLayout>
-    }
+    </div>
+  </DashboardLayout>
 }

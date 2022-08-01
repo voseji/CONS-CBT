@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Icon from '@mui/material/Icon';
 import { remainingTime } from '../../lib/time.lib';
 // import Button from '@material-ui/core/Button';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 const columns = [
 
@@ -32,6 +33,11 @@ const columns = [
 
 export const Subjects = () => {
   // render(){
+  const user = getUser();
+  const handleLogout = () => {
+    removeUserSession();
+    props.history.push('/admin_login');
+  }
 
   const [allregdetails, setAllRegDetails] = useState([])
   useEffect(() => {
@@ -47,7 +53,8 @@ export const Subjects = () => {
 
   return <DashboardLayout>
     <div>
-
+      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
+      <br />
       <Link to="/upload_questions">
         <Button variant="contained" color='secondary'>Upload Questions</Button>
       </Link>

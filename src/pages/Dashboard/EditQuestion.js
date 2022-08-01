@@ -16,13 +16,18 @@ import { Book } from '@mui/icons-material';
 import { QuestionAnswer } from '@mui/icons-material';
 // import { useParams, useSearchParams } from 'react-router-dom';
 // import RichTextEditor from 'react-rte';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 
 // export default class Candidates extends React.Component{
 
 export const EditQuestion = ({ match, location }) => {
 
-
+  const user = getUser();
+  const handleLogout = () => {
+    removeUserSession();
+    props.history.push('/admin_login');
+  }
   const params = new URLSearchParams(location.search);
   const qid = params.get('qid');
   // const { registrationNumber } = useParams();
@@ -44,7 +49,7 @@ export const EditQuestion = ({ match, location }) => {
     })
   }
 
-  const updateProduct = async (e) => {
+  const updateQuestion = async (e) => {
     e.preventDefault();
 
     // const formData = new FormData()
@@ -94,6 +99,7 @@ export const EditQuestion = ({ match, location }) => {
 
   return <DashboardLayout>
     <div style={{ width: '50%' }}>
+      <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
       <DashboardTitle title="Edit Candidate" />
 
       <TextField
@@ -140,7 +146,7 @@ export const EditQuestion = ({ match, location }) => {
 
       <br />
 
-      <Button variant="contained" color='secondary' onClick={updateProduct}>Submit</Button>
+      <Button variant="contained" color='secondary' onClick={updateQuestion}>Submit</Button>
       <br />
     </div>
   </DashboardLayout>

@@ -5,6 +5,7 @@ import DashboardLayout from '../../Components/layout/DashboardLayout';
 import * as XLSX from 'xlsx';
 import { APIErrorHandler, BackendAPI } from '../../lib/api';
 import Swal from 'sweetalert2';
+import { getUser, removeUserSession } from '../../admin/Common';
 
 
 export default class UploadQuestions extends React.Component {
@@ -133,8 +134,15 @@ export default class UploadQuestions extends React.Component {
 
     render() {
         const { file, subjects } = this.state;
+        const user = getUser();
+        const handleLogout = () => {
+            removeUserSession();
+            props.history.push('/admin_login');
+        }
         return <DashboardLayout>
             <div>
+                <h2>Hi {user.name}! <Button variant='contained' color='primary' onClick={handleLogout}>Logout</Button></h2>
+
                 <DashboardTitle title="Questions upload" />
                 <Grid container spacing={1}>
                     {/* <Grid item xs={12}>

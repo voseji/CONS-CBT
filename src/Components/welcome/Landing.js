@@ -42,11 +42,11 @@ class Landing extends React.Component {
         <Paper className={classes.root} elevation={0}>
           <Typography variant="headline" component="h3">
             FCT Health and Human Services Secretariat
-            </Typography>
+          </Typography>
           {/* <Divider className={classes.divider} /> */}
           <Typography variant="body2" component="p">
-            <h4>FCT College of Nursing and Midwifery</h4>
-            </Typography>
+            <h4>FCT College of Nursing Sciences</h4>
+          </Typography>
         </Paper>
       </div>
     );
